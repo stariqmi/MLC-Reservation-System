@@ -1,0 +1,29 @@
+{
+    "fields": [
+        {
+            "id": "full_name",
+            "label": "Full Name on Credit Card",
+            "error": "Full name is required",
+            "validate": "isNotEmpty",
+            "afterRender": "fillFullName"
+        },
+        {
+            "id": "credit_card_number",
+            "label": "Credit Card Number",
+            "error": "Credit Card number is required",
+            "validate": "isNotEmpty"
+        },
+        {
+            "id": "credit_card_expiry",
+            "label": "Expiry",
+            "error": "Please enter expiry date in the format mm/yy",
+            "validate": "isValidExpiry"
+        },
+        {
+            "id": "amount",
+            "label": "Amount",
+            "error": "Amount can not be empty",
+            "validate": "isValidAmount"
+        }
+    ]
+}

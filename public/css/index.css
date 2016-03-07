@@ -1,0 +1,23 @@
+#btn-submit {
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+
+.form-errors {
+    background-color: #ffcccc;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+.cc-reservation-id {
+    padding: 5px;
+    background-color: #b3ffb3;
+    border-radius: 7px;
+}
+
+.error-info {
+    padding: 5px;
+    color: #ff1a1a;
+}
