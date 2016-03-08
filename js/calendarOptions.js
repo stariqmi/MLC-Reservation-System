@@ -7,7 +7,7 @@ var page = require('page');
 var status_json = require('./status');
 
 // Get color
-function getEventColor(status) {
+function getReservationColor(status) {
     for (var i = 0; i < status_json.status.length; i++) {
         if (status === status_json.status[i].status) {
             return status_json.status[i].color;
@@ -29,7 +29,7 @@ module.exports = {
                     data[di].title = data[di].lname + '-' + data[di].pickup_time;
                     data[di].allDay = true;
                     data[di].start = $.fullCalendar.moment(data[di].pickup_date, 'MM/DD/YYYY');
-                    data[di].backgroundColor = getEventColor(data[di].status);
+                    data[di].backgroundColor = getReservationColor(data[di].status);
                 }
                 
                 $('#loading').hide();	
