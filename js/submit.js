@@ -23,6 +23,7 @@ module.exports = {
                             if (isValid(value)) {
                                 $errorInfo.hide();
                                 reservationInfo[field.id] = value;
+                                
                             }
                             else {
                                 isValidReservation = false;
@@ -34,6 +35,12 @@ module.exports = {
                 
                 if (isValidReservation) {
                     reservationInfo['status'] = 'pre-payment'; // i.e the payment has not been processed
+                    
+                    // Add pickup month, day, year
+                    var pickup_data = reservationInfo.pickup_date.split('/');
+                    reservationInfo.pickup_month = parseInt(pickup_data[0]);
+                    reservationInfo.pickup_day = parseInt(pickup_data[1]);
+                    reservationInfo.pickup_year = parseInt(pickup_data[2]);
                     
                     $.ajax('/pre-payment/save', {
                         method: 'post',
@@ -62,7 +69,8 @@ module.exports = {
                     var $errorMessage = $('#' + field.id + '-container .error-info');
                     
                     if (isValid(value)) {
-                        ccInfo[field.id] = value; 
+                        ccInfo[field.id] = value;
+                        
                         $errorMessage.hide();
                     }
                     else {
@@ -72,6 +80,8 @@ module.exports = {
                 }
                 
                 if (validCCInfo) {
+                    // Show loading
+                    $('#loading').show();
                     
                     // Send reservationID along
                     ccInfo.reservationID = reservationID;
@@ -85,8 +95,15 @@ module.exports = {
                         dataType: 'json',
                         data: JSON.stringify(ccInfo),
                         success: function(data, status) {
-                            
+                            /*
+                            // Uncomment this when you have processing working
                             // Empty fields for user data protection
+                            // Render reservation details page
+                            $('#loading').hide();
+                            
+                            // This should redirect to reservation display
+                            page('/reservations/' + reservationID);
+                            */
                         }
                     });
                     

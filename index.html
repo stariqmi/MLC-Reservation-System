@@ -8,6 +8,8 @@
 		
 		<!-- Custom Styles -->
 		<link rel="stylesheet" href="/css/index.css">
+		<link rel="stylesheet" href="/css/fullcalendar.min.css">
+		<link rel="stylesheet" href="/css/fullcalendar.print.css" media="print">
 		
 		<!-- Input Text Template -->
 		<script id="text-datetime-input-template" type="text/x-handlebars-template">
@@ -93,10 +95,18 @@
 			</div>
 		</script>
 		
+		<!-- Calendar Template -->
+		<script id="calendar-template" type="type/x-handlebars-template">
+			<div class="calendar" id="calendar"></div>
+		</script>
+		
 	</head>
 	<body>
 		<!-- All content is dynamically generated and put in here -->
 		<div class="contentContainer container-fluid"></div>
+		<div id="loading" class="loading">
+			<img src="/svg/hourglass.svg" class="hourglass"/>
+		</div>
 		<script type="text/javascript" src="/js/bundle.js"></script>
 	</body>
 </html>

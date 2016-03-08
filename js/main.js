@@ -51,6 +51,16 @@ $(document).ready(function() {
 		render.renderCCPaymentForm(ctx.params.id, true);
 	});
 	
+	page('/calendar', function() {
+		$contentContainer.empty();
+		render.renderCalendar();
+	});
+	
+	page('/reservations/:id', function(ctx) {
+		$contentContainer.empty();
+		render.renderReservation(ctx.params.id);
+	});
+	
 	page.start({
 		hashbang: true
 	});
