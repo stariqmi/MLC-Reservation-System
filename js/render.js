@@ -8,6 +8,7 @@ var Fullcalendar = require('fullcalendar');
 // forms json
 var per_person_json = require('./per_person.json');
 var cc_form_json = require('./cc_payment_form.json');
+var status_json = require('./status.json');
 var afterRender = require('./afterRender');
 var submit = require('./submit');
 var calendarOptions = require('./calendarOptions');
@@ -100,7 +101,7 @@ module.exports = {
 		var source = $('#calendar-template').html();
 		var template = Handlebars.compile(source);
 		
-		$contentContainer.html(template());
+		$contentContainer.html(template(status_json));
 		$('#calendar').fullCalendar(calendarOptions);
 	},
 	

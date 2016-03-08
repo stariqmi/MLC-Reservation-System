@@ -97,7 +97,15 @@
 		
 		<!-- Calendar Template -->
 		<script id="calendar-template" type="type/x-handlebars-template">
-			<div class="calendar" id="calendar"></div>
+			<div class="row">
+			<div class="legend col-sm-2">
+				<h4>Legend</h4>
+				{{#each status}}
+					<div class="legend-item" style="background-color:{{color}}">{{label}}</div>
+				{{/each}}
+			</div>
+			<div class="calendar col-sm-10" id="calendar"></div>
+			</div>
 		</script>
 		
 		<!-- Reservation View Template -->

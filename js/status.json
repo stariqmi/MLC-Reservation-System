@@ -1,0 +1,19 @@
+{
+    "status": [
+        {
+            "status":   "pre-payment",
+            "label":    "Payment not made",
+            "color":    "#ff0000" 
+        },
+        {
+            "status":   "payment-accepted",
+            "label":    "Payment Accepted",
+            "color":    "#00cc00"
+        },
+        {
+            "status":   "payment-declined",
+            "label":    "Payment Declined",
+            "color":    "#ff6600"
+        }
+    ]
+}
