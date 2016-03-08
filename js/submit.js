@@ -7,7 +7,7 @@ var Handlebars = require('handlebars');
 var validate = require('./validateFuncs');
 
 module.exports = {
-    reservationSubmit: function(form_specs) {
+    reservation: function(form_specs) {
             return function() {
                 var isValidReservation = true;
                 var reservationInfo = {};
@@ -41,6 +41,7 @@ module.exports = {
                     reservationInfo.pickup_month = parseInt(pickup_data[0]);
                     reservationInfo.pickup_day = parseInt(pickup_data[1]);
                     reservationInfo.pickup_year = parseInt(pickup_data[2]);
+                    reservationInfo.form_type = form_specs.name;
                     
                     $.ajax('/pre-payment/save', {
                         method: 'post',
@@ -56,7 +57,7 @@ module.exports = {
             }
         },
         
-        paymentSubmit: function(reservationID, form_specs) {
+        payment: function(reservationID, form_specs) {
             return function() {
                 var validCCInfo = true;
                 var ccInfo = {};

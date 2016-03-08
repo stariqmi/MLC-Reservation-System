@@ -23,9 +23,19 @@ module.exports = {
 		
 		var source = $('#sections-template').html();
 		var template = Handlebars.compile(source);
-
+		
+		var formSpec;
+		
+		switch (formType) {
+			case 'per_person':
+				formSpec = per_person_json;
+				break;
+			default:
+				formSpec = per_person_json;
+		}
+		
 		// Add form page
-		$contentContainer.append(template(per_person_json));
+		$contentContainer.append(template(formSpec));
 		$('.error-info').hide();
 		
 		// Modify fields - datetime conversion and register event handlers
@@ -49,7 +59,7 @@ module.exports = {
 		
 		// On submit form click
 		// Validate required fields
-		$('#btn-submit').on('click', submit.reservationSubmit(per_person_json));
+		$('#btn-submit').on('click', submit.reservation(formSpec));
 	},
 	
 	renderCCPaymentForm: function(reservationID, DEBUG) {
@@ -74,7 +84,7 @@ module.exports = {
 				}
 				
 				// On submit
-				$('#cc-submit-btn').on('click', submit.paymentSubmit(reservationID, cc_form_json));
+				$('#cc-submit-btn').on('click', submit.payment(reservationID, cc_form_json));
 				$('#loading').hide();
 			}
 		})
@@ -101,7 +111,29 @@ module.exports = {
 			method: 'GET',
 			success: function(data, status) {
 				$('#loading').hide();
-				$contentContainer.append(JSON.stringify(data, null, 4));
+				
+				// Get the spec to render
+				var spec;
+				switch (data.form_type) {
+					case 'per_person':
+						spec = per_person_json
+						break;
+					default:
+						spec = per_person_json;
+				}
+				
+				for (var si in per_person_json.sections) {
+					for (var fi in per_person_json.sections[si].fields) {
+						var field = per_person_json.sections[si].fields[fi];
+						
+						// Data is saved in DB with spec ids
+						per_person_json.sections[si].fields[fi].value = data[field.id];
+					}
+				}
+				
+				var source = $('#reservation-display-template').html();
+				var template = Handlebars.compile(source);
+				$contentContainer.append(template(spec));
 			}
 		});
 	}
