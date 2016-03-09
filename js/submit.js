@@ -34,6 +34,7 @@ module.exports = {
             	}
                 
                 if (isValidReservation) {
+                    $('#loading').show();
                     reservationInfo['status'] = 'pre-payment'; // i.e the payment has not been processed
                     
                     // Add pickup month, day, year
@@ -48,6 +49,8 @@ module.exports = {
                         data: JSON.stringify(reservationInfo),
                         dataType: 'json',
                         success: function(data, status) {
+                            $('#loading').hide();
+                            
                             // Pass data to next handler
                             page('/forms/cc/payment/' + data._id.$oid);
                         }
