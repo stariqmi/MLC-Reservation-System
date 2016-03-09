@@ -21,8 +21,8 @@ end
 configure do
 	
 	# MongoDB setup
-	db = Mongo::Client.new([ serverConfig.mongoHost + ':' + serverConfig.mongoPort ], :database => serverConfig.mongoDB)  
-    set :mongo_db, db[:reservations]
+	db = Mongo::Client.new(serverConfig.mongoUrl + '/' + serverConfig.mongoDB)
+    	set :mongo_db, db[:reservations]
 	
 	# SSL Thin Setup
 	set :environment, :development
