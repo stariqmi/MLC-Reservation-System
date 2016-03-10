@@ -9,14 +9,6 @@ require "./config"
 
 serverConfig = ServerConfig.new
 
-class MyThinBackend < ::Thin::Backends::TcpServer
-  def initialize(host, port, options)
-    super(host, port)
-    @ssl = true
-    @ssl_options = options
-  end
-end
-
 # Configure Sinatra WebService
 configure do
 	
@@ -29,17 +21,6 @@ configure do
 	set :bind, '0.0.0.0'
 	set :port, serverConfig.thinPort
 	set :server, "thin"
-	class << settings
-		def server_settings
-		  {
-		    :backend          => MyThinBackend,
-		    # These filenames should be set as ENV variables
-			:private_key_file => File.dirname(__FILE__) + "/local.mlc.com.key",
-		    :cert_chain_file  => File.dirname(__FILE__) + "/local.mlc.com.key.crt",
-		    :verify_peer      => false
-		  }
-		end
-	end
 end
 
 
@@ -73,6 +54,10 @@ end
 # Routing Endpoints
 get '/' do
 	send_file 'index.html'
+end
+
+get '/ping' do
+	"You pinged Miami Limo Coach Reservations"
 end
 
 post '/authenticate/:password' do
