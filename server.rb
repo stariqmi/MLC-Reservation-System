@@ -75,6 +75,10 @@ get '/' do
 	send_file 'index.html'
 end
 
+get '/ping' do
+	"You pinged Miami Limo Coach Reservations"
+end
+
 post '/authenticate/:password' do
     # Check password and authenticate it
     pwd = params[:password]
