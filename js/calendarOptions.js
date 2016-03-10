@@ -30,6 +30,7 @@ module.exports = {
                     data[di].allDay = true;
                     data[di].start = $.fullCalendar.moment(data[di].pickup_date, 'MM/DD/YYYY');
                     data[di].backgroundColor = getReservationColor(data[di].status);
+                    data[di].borderColor = '#ffffff';
                 }
                 
                 $('#loading').hide();	

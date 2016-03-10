@@ -102,7 +102,6 @@ module.exports = {
                             
                             // Uncomment this when you have processing working
                             $('#loading').hide();
-                            console.log(data);
                             if (data.resultCode === 'E') {
                                 $(".transaction.error-info").html(data.error);
                                 $(".transaction.error-info").show();
