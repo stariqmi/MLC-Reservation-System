@@ -67,6 +67,7 @@ module.exports = {
 		
 		// Make sure loading div is visible initially
 		$('#loading').show();
+		$('.transaction.error-info').hide();
 		
 		$.ajax('/reservations/' + reservationID, {
 			method: 'GET',

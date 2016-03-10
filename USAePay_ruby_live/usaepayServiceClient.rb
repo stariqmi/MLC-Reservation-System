@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'usaepayDriver.rb'
+require_relative 'usaepayDriver.rb'
 
 endpoint_url = ARGV.shift
 obj = UeSoapServerPortType.new(endpoint_url)

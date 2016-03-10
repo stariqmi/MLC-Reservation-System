@@ -99,15 +99,18 @@ module.exports = {
                         dataType: 'json',
                         data: JSON.stringify(ccInfo),
                         success: function(data, status) {
-                            /*
-                            // Uncomment this when you have processing working
-                            // Empty fields for user data protection
-                            // Render reservation details page
-                            $('#loading').hide();
                             
-                            // This should redirect to reservation display
-                            page('/reservations/' + reservationID);
-                            */
+                            // Uncomment this when you have processing working
+                            $('#loading').hide();
+                            console.log(data);
+                            if (data.resultCode === 'E') {
+                                $(".transaction.error-info").html(data.error);
+                                $(".transaction.error-info").show();
+                            }
+                            else {
+                                page('/reservations/' + reservationID);
+                            }
+                            
                         }
                     });
                     

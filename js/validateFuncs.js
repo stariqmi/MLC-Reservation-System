@@ -13,7 +13,7 @@ module.exports = {
     },
     
     isValidExpiry: function(expiry) {
-        var re = /[0-9]{1,2}[\/][0-9]{1,2}/;
+        var re = /[0-9]{4}/;
         return re.test(expiry);
     },
     

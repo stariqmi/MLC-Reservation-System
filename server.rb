@@ -6,6 +6,7 @@ require 'thin'
 
 # configuration
 require "./config"
+require "./usaepay"
 
 serverConfig = ServerConfig.new
 
@@ -17,7 +18,7 @@ configure do
     	set :mongo_db, db[:reservations]
 	
 	# SSL Thin Setup
-	set :environment, :development
+	set :environment, serverConfig.env
 	set :bind, '0.0.0.0'
 	set :port, serverConfig.thinPort
 	set :server, "thin"
@@ -84,8 +85,13 @@ post '/process/payment' do
 	data = JSON.parse request.body.read
 	
 	# Call Payment System Ruby API
-    content_type :json
-	{message: "Thankyou for the payment"}.to_json
+    epay = UsaEpay.new(serverConfig.usaEpayKey, serverConfig.usaEpayPin)
+	result = epay.executeTransaction(data)
+	
+	content_type :json
+	
+	# It might be a good idea to save refNum and status to reservation
+	{resultCode: result.resultCode, error: result.error, refNum: result.refNum}.to_json
 end
 
 get '/reservations/:start_month/:end_month' do

@@ -1,23 +1,35 @@
 {
     "fields": [
         {
-            "id": "full_name",
+            "id": "fullName",
             "label": "Full Name on Credit Card",
             "error": "Full name is required",
             "validate": "isNotEmpty",
             "afterRender": "fillFullName"
         },
         {
-            "id": "credit_card_number",
+            "id": "cardNumber",
             "label": "Credit Card Number",
             "error": "Credit Card number is required",
             "validate": "isNotEmpty"
         },
         {
-            "id": "credit_card_expiry",
+            "id": "expiry",
             "label": "Expiry",
-            "error": "Please enter expiry date in the format mm/yy",
+            "error": "Please enter expiry date in the format MMYY",
             "validate": "isValidExpiry"
+        },
+        {
+            "id": "streetAddr",
+            "label": "Street Address",
+            "error": "Please enter street address",
+            "validate": "isNotEmpty"
+        },
+        {
+            "id": "zip",
+            "label": "Zip Code",
+            "error": "Please enter a zipcode",
+            "validate": "isNotEmpty"
         },
         {
             "id": "amount",

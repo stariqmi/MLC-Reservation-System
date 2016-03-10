@@ -1,4 +1,4 @@
-require 'usaepay.rb'
+require_relative 'usaepay.rb'
 require 'soap/mapping'
 
 module UsaepayMappingRegistry

@@ -1,5 +1,5 @@
-require 'usaepay.rb'
-require 'usaepayMappingRegistry.rb'
+require_relative 'usaepay.rb'
+require_relative 'usaepayMappingRegistry.rb'
 require 'soap/rpc/driver'
 
 class UeSoapServerPortType < ::SOAP::RPC::Driver
