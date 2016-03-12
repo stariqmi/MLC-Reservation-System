@@ -125,10 +125,11 @@ module.exports = {
 				$contentContainer.append(template(spec));
 				
 				$('.delete-btn').on('click', function() {
+					$('#loading').show();
 					$.ajax('/reservations/' + reservationID, {
 						method: 'DELETE',
 						success: function(data, status) {
-							console.log(data);
+							$('#loading').hide();
 							if (data.status === 'ok') page('/admin/calendar');
 							else alert('Can not delete, please contact your developer');
 						}
