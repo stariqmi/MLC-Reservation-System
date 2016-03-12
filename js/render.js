@@ -11,6 +11,7 @@ var per_person_json = require('./per_person.json');
 var cc_form_json = require('./cc_payment_form.json');
 var status_json = require('./status.json');
 var afterRender = require('./afterRender');
+var displayAfterRender = require('./displayAfterRender');
 var submit = require('./submit');
 var calendarOptions = require('./calendarOptions');
 
@@ -111,18 +112,30 @@ module.exports = {
 				// This enable the delete button
 				spec.admin = ADMIN;
 				
-				for (var si in per_person_json.sections) {
-					for (var fi in per_person_json.sections[si].fields) {
-						var field = per_person_json.sections[si].fields[fi];
+				for (var si in spec.sections) {
+					for (var fi in spec.sections[si].fields) {
+						var field = spec.sections[si].fields[fi];
 						
 						// Data is saved in DB with spec ids
-						per_person_json.sections[si].fields[fi].value = data[field.id];
+						spec.sections[si].fields[fi].value = data[field.id];
 					}
 				}
 				
 				var source = $('#reservation-display-template').html();
 				var template = Handlebars.compile(source);
 				$contentContainer.append(template(spec));
+				
+				// After Render
+				for (var si in spec.sections) {
+					for (var fi in spec.sections[si].fields) {
+						var field = spec.sections[si].fields[fi];
+						
+						$field = $('span#' + field.id);
+						if (field.displayAfterRender) {
+							displayAfterRender[field.displayAfterRender]($field, field.value);
+						}
+					}
+				}
 				
 				$('.delete-btn').on('click', function() {
 					$('#loading').show();

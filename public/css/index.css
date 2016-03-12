@@ -1,5 +1,10 @@
 body {
     padding: 5px;
+    font-size: 16px;
+}
+
+@media print {
+    footer {page-break-after: always;}
 }
 
 /*#btn-submit {

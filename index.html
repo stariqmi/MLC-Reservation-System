@@ -2,12 +2,16 @@
 <html>
 	<head>
 		<title>MLC Reservation</title>
+		<!-- Configure viewport -->
+		<meta name=viewport content="width=device-width, initial-scale=1">
+		
 		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 		
 		<!-- Custom Styles -->
 		<link rel="stylesheet" href="/css/index.css">
+		<link rel="stylesheet" href="/css/reservationDisplay.css">
 		<link rel="stylesheet" href="/css/fullcalendar.min.css">
 		<link rel="stylesheet" href="/css/fullcalendar.print.css" media="print">
 		
@@ -121,9 +125,12 @@
 		<script id="calendar-template" type="type/x-handlebars-template">
 			<div class="legend row">
 				{{#each status}}
-					<div class="legend-item col-xs-2" style="background-color:{{color}}">{{label}}</div>
+					<!-- Remove these comments if legend is needed
+					<div class="legend row">
+						<div class="legend-item col-xs-6" style="background-color:{{color}}">{{label}}</div>
+					</div>
+					-->
 				{{/each}}
-			</div>
 			<div class="row">
 				<div class="calendar col-md-12" id="calendar"></div>
 			</div>
@@ -131,22 +138,26 @@
 		
 		<!-- Reservation View Template -->
 		<script id="reservation-display-template" type="type/x-handlebars-template">
-			<div class="row" id="reservation-display-container">
-				{{#each sections}}
-					<div class="col-md-6">
+			{{#if admin}}
+				<div class="row" id="reservation-buttons-container">
+					<div class="col-md-12">
+						<button class="delete-btn btn btn-primary">Delete Reservation</button>
+						<a href="/admin/calendar" class="btn btn-primary">View Calendar</a>
+					</div>
+				</div>
+			{{/if}}
+			{{#each sections}}
+				<div class="row">
+					<div class="col-md-12 reservation-display-section">
 						{{#each fields}}
 							<div class="reservation-field-info-container">
-								<p><b>{{label}}</b> : {{value}}</p>
+								<p><b>{{label}}</b> : <span id="{{id}}">{{value}}</span></p>
 							</div>
 						{{/each}}
 					</div>
-				{{/each}}
-			</div>
-			{{#if admin}}
-				<div class="row" id="delete-button-container">
-					<div class="col-md-12"><button class="delete-btn btn btn-primary">Delete Reservation</button></div>
 				</div>
-			{{/if}}
+			{{/each}}
+			<footer></footer>
 		</script>
 		
 	</head>

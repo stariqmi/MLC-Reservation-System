@@ -43,14 +43,16 @@
 					"error": 		"Phone # is required",
 					"placeholder":	"Your phone number",
 					"validate":		"isNotEmpty",
-					"debugVal":		"226-606-9930"
+					"debugVal":		"226-606-9930",
+					"displayAfterRender": "makeClickableTel"
 				},
 				{
 					"containerId":	"ph2-input-container",
 					"id": 			"ph2",
 					"label": 		"Phone # - Alternate",
 					"type": 		"text",
-					"placeholder":	"Your alternate phone number"
+					"placeholder":	"Your alternate phone number",
+					"displayAfterRender": "makeClickableTel"
 				},
 				{
 					"containerId":	"email-input-container",
@@ -61,7 +63,8 @@
 					"error": 		"Please enter a valid email",
 					"placeholder":	"Your Email Address",
 					"validate":		"isValidEmail",
-					"debugVal":		"salmantariq@gmail.com"
+					"debugVal":		"salmantariq@gmail.com",
+					"displayAfterRender": "makeClickableEmail"
 				},
 				{
 					"containerId":	"pickup-date-input-container",
