@@ -39,7 +39,7 @@ module.exports = {
         });
     },
     eventClick: function(event) {
-        page('/reservations/' + event._id.$oid);
+        page('/admin/reservations/' + event._id.$oid);
     },
     dayClick: function(day) {
         // alert('WIP');

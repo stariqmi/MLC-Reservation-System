@@ -45,14 +45,19 @@ module.exports = {
                     var isValid = validate[field.validate];
                     var $errorMessage = $('#payment-container ' + '#' + field.id + '-container .error-info');
                     
-                    if (isValid(value)) {
-                        ccInfo[field.id] = value;
-                        
-                        $errorMessage.hide();
+                    if (field.required) {
+                        if (isValid(value)) {
+                            ccInfo[field.id] = value;
+                            $errorMessage.hide();
+                        }
+                        else {
+                            isValidCCInfo = false;
+                            $errorMessage.show();
+                        }
                     }
+                    // If not required then pass the value as is
                     else {
-                        isValidCCInfo = false;
-                        $errorMessage.show();
+                        ccInfo[field.id] = value;
                     }
                 }
                 

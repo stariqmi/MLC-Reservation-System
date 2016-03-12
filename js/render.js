@@ -4,6 +4,7 @@ var Handlebars = require('handlebars');
 var jqUI = require('jquery-ui');
 var moment = require('moment');
 var Fullcalendar = require('fullcalendar');
+var page = require('page');
 
 // forms json
 var per_person_json = require('./per_person.json');
@@ -25,7 +26,7 @@ module.exports = {
 		var formSpec;
 		
 		switch (formType) {
-			case 'per_person':
+			case 'pp':
 				formSpec = per_person_json;
 				break;
 			default:
@@ -89,7 +90,7 @@ module.exports = {
 		$('#calendar').fullCalendar(calendarOptions);
 	},
 	
-	renderReservation: function(reservationID) {
+	renderReservation: function(reservationID, ADMIN) {
 		
 		$('#loading').show();
 		$.ajax('/reservations/' + reservationID, {
@@ -107,6 +108,9 @@ module.exports = {
 						spec = per_person_json;
 				}
 				
+				// This enable the delete button
+				spec.admin = ADMIN;
+				
 				for (var si in per_person_json.sections) {
 					for (var fi in per_person_json.sections[si].fields) {
 						var field = per_person_json.sections[si].fields[fi];
@@ -119,6 +123,16 @@ module.exports = {
 				var source = $('#reservation-display-template').html();
 				var template = Handlebars.compile(source);
 				$contentContainer.append(template(spec));
+				
+				$('.delete-btn').on('click', function() {
+					$.ajax('/reservations/' + reservationID, {
+						method: 'DELETE',
+						success: function(data, status) {
+							if (data.status === 'ok') page('/admin/calendar');
+							else alert('Can not delete, please contact your developer');
+						}
+					});
+				});
 			}
 		});
 	}

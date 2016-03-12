@@ -1,4 +1,8 @@
 module.exports = {
+    noop: function() {
+        return true;
+    },
+    
     isNotEmpty: function(value) {
         return value.length !== 0;
     },

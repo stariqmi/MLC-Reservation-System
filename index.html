@@ -132,7 +132,7 @@
 		
 		<!-- Reservation View Template -->
 		<script id="reservation-display-template" type="type/x-handlebars-template">
-			<div class="row">
+			<div class="row" id="reservation-display-container">
 				{{#each sections}}
 					<div class="col-dm-6">
 						{{#each fields}}
@@ -143,6 +143,11 @@
 					</div>
 				{{/each}}
 			</div>
+			{{#if admin}}
+				<div class="row" id="delete-button-container">
+					<div class="col-md-12"><button class="delete-btn btn btn-primary">Delete Reservation</button></div>
+				</div>
+			{{/if}}
 		</script>
 		
 	</head>

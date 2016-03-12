@@ -40,14 +40,19 @@ $(document).ready(function() {
 		render.renderForm(formID, true);
 	});
 	
-	page('/calendar', function() {
+	page('/admin/calendar', function() {
 		$contentContainer.empty();
 		render.renderCalendar();
 	});
 	
+	page('/admin/reservations/:id', function(ctx) {
+		$contentContainer.empty();
+		render.renderReservation(ctx.params.id, true);
+	});
+	
 	page('/reservations/:id', function(ctx) {
 		$contentContainer.empty();
-		render.renderReservation(ctx.params.id);
+		render.renderReservation(ctx.params.id, false);
 	});
 	
 	page.start({

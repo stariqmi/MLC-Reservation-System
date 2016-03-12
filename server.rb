@@ -96,6 +96,7 @@ post '/reservation_with_cc' do
 	    epay = UsaEpay.new(serverConfig.usaEpayKey, serverConfig.usaEpayPin)
 		puts "Initialized epay interface"
 		paymentResult = epay.executeTransaction(ccData)
+		puts "[MLC-log]>>>>>>>>>>>>>>>> SOAP Transaction Response <<<<<<<<<<<<<<<<<"
 		p paymentResult.inspect
 	rescue Exception => e  
 		puts e.message  
@@ -141,4 +142,12 @@ end
 get '/reservations/:id' do
 	content_type :json
 	document_by_id params[:id]
+end
+
+delete '/reservations/:id' do 
+	content_type :json
+	
+	result = settings.mongo_db.delete_one(:_id => object_id(params[:id]))
+	status = result.n == 1 ? "ok" : "error"
+	{status: status}.to_json
 end

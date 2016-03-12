@@ -4,37 +4,49 @@
             "id": "fullName",
             "label": "Full Name on Credit Card",
             "error": "Full name is required",
+            "required": true,
             "validate": "isNotEmpty"
         },
         {
             "id": "cardNumber",
             "label": "Credit Card Number",
             "error": "Credit Card number is required",
-            "validate": "isNotEmpty"
+            "validate": "isNotEmpty",
+            "required": true
         },
         {
             "id": "expiry",
             "label": "Expiry",
             "error": "Please enter expiry date in the format MMYY",
-            "validate": "isValidExpiry"
+            "validate": "isValidExpiry",
+            "required": true
+        },
+        {
+            "id": "cvv2",
+            "label": "CVV2/CID",
+            "required": false,
+            "validate": "noop"
         },
         {
             "id": "streetAddr",
             "label": "Street Address",
             "error": "Please enter street address",
-            "validate": "isNotEmpty"
+            "validate": "isNotEmpty",
+            "required": true
         },
         {
             "id": "zip",
             "label": "Zip Code",
             "error": "Please enter a zipcode",
-            "validate": "isNotEmpty"
+            "validate": "isNotEmpty",
+            "required": true
         },
         {
             "id": "amount",
             "label": "Amount",
             "error": "Amount can not be empty",
-            "validate": "isValidAmount"
+            "validate": "isValidAmount",
+            "required": true
         }
     ]
 }
