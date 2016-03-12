@@ -73,7 +73,7 @@
 					"placeholder":	"Pickup Date",
 					"afterRender":	"convertToDatepicker",
 					"validate":		"isNotEmpty",
-					"debugVal":		"20/04/2016"
+					"debugVal":		"03/23/2016"
 				},
 				{
 					"containerId":	"pickup-time-input-container",

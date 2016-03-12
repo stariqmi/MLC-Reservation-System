@@ -21,7 +21,8 @@ class ServerConfig
     	@mongoUrl = @mongoDevUrl
     	@mongoDB = @mongoDevDB
         
-        @usaEpayKey = "tqgAND730mEqFY22B7Tmf2mno7mvV7aR"
+        @usaEpayKey = "_JYPW26imL8vZUFNU0wdnHqRlbBANZwK" # Development Key
+        # @usaEpayKey = "tqgAND730mEqFY22B7Tmf2mno7mvV7aR" # Production Key
         @usaEpayPin = "9999"
     end
 end

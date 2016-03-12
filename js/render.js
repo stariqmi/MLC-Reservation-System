@@ -18,9 +18,6 @@ var $contentContainer = $(contentContainerClass);
 
 module.exports = {
 	renderForm: function(formType, DEBUG) {
-
-		// Make sure loading div is hidden initially
-		$('#loading').hide();
 		
 		var source = $('#sections-template').html();
 		var template = Handlebars.compile(source);
@@ -40,9 +37,9 @@ module.exports = {
 		$('.error-info').hide();
 		
 		// Modify fields - datetime conversion and register event handlers
-		for (var si in per_person_json.sections) {
-			for (var fi in per_person_json.sections[si].fields) {
-				var field = per_person_json.sections[si].fields[fi];			
+		for (var si in formSpec.sections) {
+			for (var fi in formSpec.sections[si].fields) {
+				var field = formSpec.sections[si].fields[fi];			
 				var $field = $('#' + field.id);
 
 				// If debugging
@@ -58,38 +55,24 @@ module.exports = {
 			}
 		}
 		
+		// Add Credit card payment
+		var ccSource = $('#payment-template').html();
+		var ccTemplate = Handlebars.compile(ccSource);
+		
+		$contentContainer.append(ccTemplate({fields: cc_form_json.fields}));
+		$('.error-info').hide();
+		
+		var submitSource = $("#reservation-submit-template").html();
+		var submitTemplate = Handlebars.compile(submitSource);
+		$contentContainer.append(submitTemplate());
+		
 		// On submit form click
 		// Validate required fields
-		$('#btn-submit').on('click', submit.reservation(formSpec));
-	},
-	
-	renderCCPaymentForm: function(reservationID, DEBUG) {
+		$('#btn-submit').on('click', submit.reservationWithCC(formSpec));
 		
-		// Make sure loading div is visible initially
-		$('#loading').show();
-		$('.transaction.error-info').hide();
-		
-		$.ajax('/reservations/' + reservationID, {
-			method: 'GET',
-			success: function(data, status) {
-				var source = $('#payment-template').html();
-				var template = Handlebars.compile(source);
-				
-				$contentContainer.append(template({id: reservationID, fields: cc_form_json.fields}));
-				$('.error-info').hide();
-				
-				for (var fi in cc_form_json.fields) {
-					var field = cc_form_json.fields[fi];
-					
-					// Call afterRender on the field with the reservation data
-					if (field.afterRender) afterRender[field.afterRender]($('#' + field.id), data);
-				}
-				
-				// On submit
-				$('#cc-submit-btn').on('click', submit.payment(reservationID, cc_form_json));
-				$('#loading').hide();
-			}
-		})
+		// Make sure loading div is hidden initially
+		// Hide it after everything is rendered
+		$('#loading').hide();
 	},
 	
 	renderCalendar: function() {

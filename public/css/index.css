@@ -2,10 +2,10 @@ body {
     padding: 5px;
 }
 
-#btn-submit {
+/*#btn-submit {
     margin-left: 15px;
     margin-bottom: 15px;
-}
+}*/
 
 .form-errors {
     background-color: #ffcccc;

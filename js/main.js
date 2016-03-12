@@ -32,23 +32,12 @@ $(document).ready(function() {
 		$contentContainer.empty();
 		
 		// Register Partials
-		var partial = $('#text-datetime-input-template').html();
-		Handlebars.registerPartial('inputDisplay', partial);
+		var partialA = $('#text-datetime-input-template').html();
+		Handlebars.registerPartial('inputDisplay', partialA);
 		
 		var formID = ctx.params.formID;
 		// Second argument is debug flag
 		render.renderForm(formID, true);
-	});
-	
-	page('/forms/cc/payment/:id', function(ctx) {
-		$contentContainer.empty();
-		
-		// Register Partials
-		var partial = $('#credit-card-info-template').html();
-		Handlebars.registerPartial('creditCardForm', partial);
-		
-		// Render content using above templates and headers
-		render.renderCCPaymentForm(ctx.params.id, true);
 	});
 	
 	page('/calendar', function() {

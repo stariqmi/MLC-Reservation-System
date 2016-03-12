@@ -2,8 +2,8 @@
 require 'digest'
 
 # UsaEpay library
-# require_relative 'USAePay_ruby_sandbox/usaepayDriver'
-require_relative 'USAePay_ruby_live/usaepayDriver'
+require_relative 'USAePay_ruby_sandbox/usaepayDriver'
+# require_relative 'USAePay_ruby_live/usaepayDriver'
  
 class UsaEpay
     

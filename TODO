@@ -4,3 +4,14 @@
 
 http://stackoverflow.com/questions/8998496/xml-processor-module-not-found-error-when-try-to-consume-soap-service-by-using-s
 change paths to require relative
+
+- UsaEpay Logo
+- Authorization Statemnt
+- Take out Per Person in the header, header should be same as old forms
+- Change col-sm-* col-md-*
+- First Name first, then Last Name
+- Company Name(if rented by company)
+- Number of Passengers
+- Coach 1-10
+- Company Policy Disclosures
+- Make sure email is sent to info@miamilimocoach.com

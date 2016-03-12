@@ -4,8 +4,7 @@
             "id": "fullName",
             "label": "Full Name on Credit Card",
             "error": "Full name is required",
-            "validate": "isNotEmpty",
-            "afterRender": "fillFullName"
+            "validate": "isNotEmpty"
         },
         {
             "id": "cardNumber",

@@ -5,9 +5,10 @@ var Handlebars = require('handlebars');
 
 // custom modules
 var validate = require('./validateFuncs');
+var cc_form_json = require('./cc_payment_form.json');
 
 module.exports = {
-    reservation: function(form_specs) {
+    reservationWithCC: function(form_specs) {
             return function() {
                 var isValidReservation = true;
                 var reservationInfo = {};
@@ -15,10 +16,10 @@ module.exports = {
                 for (var si in form_specs.sections) {
             		for (var fi in form_specs.sections[si].fields) {
             			var field = form_specs.sections[si].fields[fi];
-            			var $errorInfo = $('#' + field.id + '-container .error-info');
+            			var $errorInfo = $('#reservation-form-container ' + '#' + field.id + '-container .error-info');
                         
             			if (field.required && field.validate) {
-                            var value = $('#' + field.id).val();
+                            var value = $('#reservation-form-container ' + '#' + field.id + '-container ' + '#' + field.id).val();
                             var isValid = validate[field.validate];
                             if (isValid(value)) {
                                 $errorInfo.hide();
@@ -33,7 +34,29 @@ module.exports = {
             		}
             	}
                 
-                if (isValidReservation) {
+                var isValidCCInfo = true;
+                var ccInfo = {};
+                
+                // Check if field value is valid or not
+                for (fi in cc_form_json.fields) {
+                    var field = cc_form_json.fields[fi];
+                    var $field = $('#payment-container ' + '#' + field.id);
+                    var value = $field.val();
+                    var isValid = validate[field.validate];
+                    var $errorMessage = $('#payment-container ' + '#' + field.id + '-container .error-info');
+                    
+                    if (isValid(value)) {
+                        ccInfo[field.id] = value;
+                        
+                        $errorMessage.hide();
+                    }
+                    else {
+                        isValidCCInfo = false;
+                        $errorMessage.show();
+                    }
+                }
+                
+                if (isValidReservation && isValidCCInfo) {
                     $('#loading').show();
                     reservationInfo['status'] = 'pre-payment'; // i.e the payment has not been processed
                     
@@ -44,15 +67,21 @@ module.exports = {
                     reservationInfo.pickup_year = parseInt(pickup_data[2]);
                     reservationInfo.form_type = form_specs.name;
                     
-                    $.ajax('/pre-payment/save', {
+                    $.ajax('/reservation_with_cc', {
                         method: 'post',
-                        data: JSON.stringify(reservationInfo),
+                        data: JSON.stringify({reservation: reservationInfo, cc: ccInfo}),
                         dataType: 'json',
                         success: function(data, status) {
+                            console.log(data);
                             $('#loading').hide();
                             
-                            // Pass data to next handler
-                            page('/forms/cc/payment/' + data._id.$oid);
+                            if (data.status === 'ok' && data.resultCode === 'A') {
+                                page('/reservations/' + data.reservation._id.$oid);
+                            }
+                            else {
+                                $(".transaction.error-info").html(data.error);
+                                $(".transaction.error-info").show();
+                            }
                         }
                     });
                     

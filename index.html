@@ -36,27 +36,15 @@
 			</div>
 		</script>
 		
-		<!-- Form Errors Template -->
-		<script id="form-errors-template" type="text/x-handlebars-template">
-			<h5>Please correct the following errors</h5>
-			<ul>
-				{{#each errors}}
-					<li><span><b>{{label}}:</b> {{error}}</span></li>
-				{{/each}}
-			</ul>
-		</script>
-		
 		<!-- Sections Template -->
 		<script id="sections-template" type="text/x-handlebars-template">
 			<div class="row">
 				<!-- Header, form name -->
 				<div class="col-sm-12 header">
-					<h1>{{header}}</h1>
+					<h1>Miami Limo Coach Reservation</h1>
 				</div>
-				
-				<!-- Form errors -->
-				<div class="col-sm-12 form-errors">
-				</div>
+			</div>
+			<div class="row" id="reservation-form-container">
 				{{#each sections}}
 					<div class="col-sm-6">
 						{{#each fields}}
@@ -64,35 +52,39 @@
 						{{/each}}
 					</div>
 				{{/each}}
-				<button id="btn-submit" type="button" class="btn btn-primary">Submit</button>
 			</div>
 		</script>
 		
-		<!-- Credit Card Information Template -->
-		<script id="credit-card-info-template" type="text/x-handlebars-template">
-			<div class="col-sm-4">
-				<h2>Credit Card Payment</h2>
-				<p class="transaction error-info"></p>
-				{{#each fields}}
-					<div class="form-group" id="{{id}}-container">
-						<label>{{label}}</label>
-						<input id="{{id}}" type="text" class="form-control"/>
-						<p class="error-info">{{error}}</p>
-					</div>
-				{{/each}}
-				<button class="btn btn-primary" id="cc-submit-btn">Submit</button>
-			</div>
-		</script>
-		
-		<!-- Credit Card Page -->
+		<!-- Payment Template -->
 		<script id="payment-template" type="text/x-handlebars-template">
 			<div class="row">
-				<div class="col-sm-12">
-					<!-- <h2>Reservation Details</h2> -->
-					<h4>Reservation ID:</h4>
-					<span class="cc-reservation-id">{{id}}</span>
+				<div class="col-sm-4" id="payment-container">
+					<h2>Credit Card Payment</h2>
+					<p class="transaction error-info"></p>
+					{{#each fields}}
+						<div class="form-group" id="{{id}}-container">
+							<label>{{label}}</label>
+							<input id="{{id}}" type="text" class="form-control"/>
+							<p class="error-info">{{error}}</p>
+						</div>
+					{{/each}}
 				</div>
-				{{> creditCardForm}}
+			</div>
+		</script>
+		
+		<script id="reservation-submit-template" type="text/x-handlebars-template">
+			<div class="row">
+				<div class="col-md-12" id="security-info">
+					<h4>Security Info</h4>
+				</div>
+				
+				<div class="col-md-12" id="disclaimer">
+					<h4>Disclaimer</h4>
+				</div>
+				
+				<div class="col-md-12">
+					<button id="btn-submit" type="button" class="btn btn-primary">Submit</button>
+				</div>
 			</div>
 		</script>
 		
