@@ -40,14 +40,14 @@
 		<script id="sections-template" type="text/x-handlebars-template">
 			<div class="row">
 				<!-- Header, form name -->
-				<div class="col-dm-12 header">
+				<div class="col-md-12 header">
 					<h1>Miami Limo Coach</h1>
 					<h2>Reservation From</h2>
 				</div>
 			</div>
 			<div class="row" id="reservation-form-container">
 				{{#each sections}}
-					<div class="col-dm-6">
+					<div class="col-md-6">
 						{{#each fields}}
 							{{> inputDisplay}}
 						{{/each}}
@@ -59,7 +59,7 @@
 		<!-- Payment Template -->
 		<script id="payment-template" type="text/x-handlebars-template">
 			<div class="row">
-				<div class="col-dm-4" id="payment-container">
+				<div class="col-md-4" id="payment-container">
 					<h2>Credit Card Payment</h2>
 					<p class="transaction error-info"></p>
 					{{#each fields}}
@@ -119,14 +119,13 @@
 		
 		<!-- Calendar Template -->
 		<script id="calendar-template" type="type/x-handlebars-template">
-			<div class="row">
-			<div class="legend col-dm-2">
-				<h4>Legend</h4>
+			<div class="legend row">
 				{{#each status}}
-					<div class="legend-item" style="background-color:{{color}}">{{label}}</div>
+					<div class="legend-item col-xs-2" style="background-color:{{color}}">{{label}}</div>
 				{{/each}}
 			</div>
-			<div class="calendar col-dm-10" id="calendar"></div>
+			<div class="row">
+				<div class="calendar col-md-12" id="calendar"></div>
 			</div>
 		</script>
 		
@@ -134,7 +133,7 @@
 		<script id="reservation-display-template" type="type/x-handlebars-template">
 			<div class="row" id="reservation-display-container">
 				{{#each sections}}
-					<div class="col-dm-6">
+					<div class="col-md-6">
 						{{#each fields}}
 							<div class="reservation-field-info-container">
 								<p><b>{{label}}</b> : {{value}}</p>
