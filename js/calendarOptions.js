@@ -26,7 +26,7 @@ module.exports = {
             method: 'get',
             success: function(data, status) {
                 for (var di in data) {
-                    data[di].title = data[di].lname + '-' + data[di].pickup_time;
+                    data[di].title = '#' + data[di].coach + ' / ' + data[di].pickup_time;
                     data[di].allDay = true;
                     data[di].start = $.fullCalendar.moment(data[di].pickup_date, 'MM/DD/YYYY');
                     data[di].backgroundColor = getReservationColor(data[di].status);

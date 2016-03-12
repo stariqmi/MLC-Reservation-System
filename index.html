@@ -40,13 +40,14 @@
 		<script id="sections-template" type="text/x-handlebars-template">
 			<div class="row">
 				<!-- Header, form name -->
-				<div class="col-sm-12 header">
-					<h1>Miami Limo Coach Reservation</h1>
+				<div class="col-dm-12 header">
+					<h1>Miami Limo Coach</h1>
+					<h2>Reservation From</h2>
 				</div>
 			</div>
 			<div class="row" id="reservation-form-container">
 				{{#each sections}}
-					<div class="col-sm-6">
+					<div class="col-dm-6">
 						{{#each fields}}
 							{{> inputDisplay}}
 						{{/each}}
@@ -58,7 +59,7 @@
 		<!-- Payment Template -->
 		<script id="payment-template" type="text/x-handlebars-template">
 			<div class="row">
-				<div class="col-sm-4" id="payment-container">
+				<div class="col-dm-4" id="payment-container">
 					<h2>Credit Card Payment</h2>
 					<p class="transaction error-info"></p>
 					{{#each fields}}
@@ -75,15 +76,44 @@
 		<script id="reservation-submit-template" type="text/x-handlebars-template">
 			<div class="row">
 				<div class="col-md-12" id="security-info">
-					<h4>Security Info</h4>
-				</div>
-				
-				<div class="col-md-12" id="disclaimer">
-					<h4>Disclaimer</h4>
+					<center>
+						<h4>Security Info</h4>
+						<p>BY FILLING OUT THIS DOCUMENT, I HAVE HEREBY AUTHORIZED<br/>
+							<b>Miami Limo Coach</b> <br/>
+							TO CHARGE MY CREDIT CARD ABOVE IN ORDER<br/> 
+							TO SECURE THEIR SERVICES
+						</p>
+					</center>
 				</div>
 				
 				<div class="col-md-12">
-					<button id="btn-submit" type="button" class="btn btn-primary">Submit</button>
+					<center>
+						<button id="btn-submit" type="button" class="btn btn-primary">Submit Reservation / Make Payment</button>
+					</center>
+				</div>
+				
+				<div class="col-md-12" id="disclaimer">
+					<center>
+						<h4>Company Policy</h4>
+					</center>
+					<p>
+						<b>Company policy:</b>
+						At the chauffeurs discretion, renter agrees to be fully liable for any damages that may occur including but not limited to:<br/>
+						<br/>
+						Holes or tears in seat………………. $200<br/>
+						<br/>
+						Gum in carpet…………………………. $50<br/>
+						<br/>
+						Special cleaning (sickness etc.)… $250<br/>
+						<br/>
+						*For passengers 21+ we allow all liquor bottles on-board but no beer bottles, only beer cans allowed.<br/>
+						<br/>
+						16850 Collins Ave. Suite #259 Miami, Fl 33160<br/>
+						Phone: (305) 200-9804<br/>
+						Fax: (305) 424-9396<br/>
+						E-mail: info@miamilimocoach.com<br/>
+						Website: www.miamilimocoach.com
+					</p>
 				</div>
 			</div>
 		</script>
@@ -91,13 +121,13 @@
 		<!-- Calendar Template -->
 		<script id="calendar-template" type="type/x-handlebars-template">
 			<div class="row">
-			<div class="legend col-sm-2">
+			<div class="legend col-dm-2">
 				<h4>Legend</h4>
 				{{#each status}}
 					<div class="legend-item" style="background-color:{{color}}">{{label}}</div>
 				{{/each}}
 			</div>
-			<div class="calendar col-sm-10" id="calendar"></div>
+			<div class="calendar col-dm-10" id="calendar"></div>
 			</div>
 		</script>
 		
@@ -105,7 +135,7 @@
 		<script id="reservation-display-template" type="type/x-handlebars-template">
 			<div class="row">
 				{{#each sections}}
-					<div class="col-sm-6">
+					<div class="col-dm-6">
 						{{#each fields}}
 							<div class="reservation-field-info-container">
 								<p><b>{{label}}</b> : {{value}}</p>

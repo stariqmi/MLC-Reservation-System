@@ -8,14 +8,5 @@ change paths to require relative
 
 ===== Requirements =====
 - UsaEpay Logo
-- Authorization Statemnt
-- Take out Per Person in the header, header should be same as old forms
-- Change col-sm-* col-md-*
-- First Name first, then Last Name
-- Company Name(if rented by company)
-- Number of Passengers
-- Coach 1-10
-- Company Policy Disclosures
-- Make sure email is sent to info@miamilimocoach.com
+- Card Options and CVV field (Read SOAP documentation for this) (use this link for QA https://secure.usaepay.com/cvv.htm)
 - Add ability to delete reservation
-- calendar event label = {Coach #}/{pickup time}

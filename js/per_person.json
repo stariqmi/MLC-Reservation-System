@@ -6,17 +6,6 @@
 			"name":		"A",
 			"fields": 	[
 				{
-					"containerId":	"lname-input-container",
-					"id": 			"lname",
-					"label": 		"Last Name",
-					"type": 		"text",
-					"required": 	true,
-					"error": 		"Last name is required",
-					"placeholder":	"Your last name",
-					"validate":		"isNotEmpty",
-					"debugVal":		"Tariq"
-				},
-				{
 					"containerId":	"fname-input-container",
 					"id": 			"fname",
 					"label": 		"First Name",
@@ -28,9 +17,20 @@
 					"debugVal":		"Salman"
 				},
 				{
+					"containerId":	"lname-input-container",
+					"id": 			"lname",
+					"label": 		"Last Name",
+					"type": 		"text",
+					"required": 	true,
+					"error": 		"Last name is required",
+					"placeholder":	"Your last name",
+					"validate":		"isNotEmpty",
+					"debugVal":		"Tariq"
+				},
+				{
 					"containerId":	"company-input-container",
 					"id": 			"company",
-					"label": 		"Company",
+					"label": 		"Company Name (if rented by company)",
 					"type": 		"text",
 					"placeholder":	"Your company name"
 				},
@@ -142,9 +142,9 @@
 				{
 					"containerId":	"passenger-count-input-container",
 					"id": 			"passenger_count",
-					"label": 		"Total Passengers",
+					"label": 		"Number of Passengers",
 					"type": 		"text",
-					"placeholder":	"Total Passengers"
+					"placeholder":	"Number of Passengers"
 				},
 				{
 					"containerId":	"per-person-rate-input-container",
@@ -183,7 +183,14 @@
 					"options":		[
 							{"label": 1, "value": 1},
 							{"label": 2, "value": 2},
-							{"label": 3, "value": 3}
+							{"label": 3, "value": 3},
+							{"label": 4, "value": 4},
+							{"label": 5, "value": 5},
+							{"label": 6, "value": 6},
+							{"label": 7, "value": 7},
+							{"label": 8, "value": 8},
+							{"label": 9, "value": 9},
+							{"label": 10, "value": 10}
 					],
 					"required": 	true,
 					"error": 		"Please select a coach",
