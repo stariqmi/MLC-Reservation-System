@@ -51,13 +51,18 @@ helpers do
 		if id.nil?
 			{}.to_json
 		else
-			document = settings.mongo_db.find_one_and_update({:_id => id}, {'$set' => update})
+			document = settings.mongo_db.find_one_and_update(
+				{:_id => id}, 
+				{'$set' => update}, 
+				:return_document => :after)
 			document
 		end
 	end
   
   def get_reservations_by_month(start_month, end_month)
-      documents = settings.mongo_db.find(:pickup_month => {:$gte => start_month, :$lte => end_month}).to_a
+      documents = settings.mongo_db.find({
+		  :status => {:$ne => "deleted"}, 
+		  :pickup_month => {:$gte => start_month, :$lte => end_month}}).to_a
       (documents || {}).to_json
   end
 end
@@ -147,7 +152,8 @@ end
 delete '/reservations/:id' do 
 	content_type :json
 	
-	result = settings.mongo_db.delete_one(:_id => object_id(params[:id]))
-	status = result.n == 1 ? "ok" : "error"
-	{status: status}.to_json
+	# We retain data for analysis
+	result = update_by_id(params[:id], {:status => "deleted"});
+	status = result[:status] == "deleted" ? "ok" : "error"
+	{status: status, deleted: result}.to_json
 end
