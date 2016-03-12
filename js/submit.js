@@ -67,18 +67,32 @@ module.exports = {
                     reservationInfo.pickup_year = parseInt(pickup_data[2]);
                     reservationInfo.form_type = form_specs.name;
                     
+                    var requestData = {reservation: reservationInfo, cc: ccInfo};
+                    if (window.retry) {
+                        requestData.retry = true;
+                        requestData.reservationID = window.reservationID;
+                    }
+                    
                     $.ajax('/reservation_with_cc', {
                         method: 'post',
-                        data: JSON.stringify({reservation: reservationInfo, cc: ccInfo}),
+                        data: JSON.stringify(requestData),
                         dataType: 'json',
                         success: function(data, status) {
+                            
                             console.log(data);
                             $('#loading').hide();
                             
                             if (data.status === 'ok' && data.resultCode === 'A') {
+                                // Clear out "session"
+                                if (window.retry) {
+                                    delete window.retry;
+                                    delete window.reservationID;
+                                }
                                 page('/reservations/' + data.reservation._id.$oid);
                             }
                             else {
+                                window.retry = true;
+                                window.reservationID = data.reservation._id.$oid;
                                 $(".transaction.error-info").html(data.error);
                                 $(".transaction.error-info").show();
                             }

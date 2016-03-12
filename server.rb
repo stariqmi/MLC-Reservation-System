@@ -84,7 +84,6 @@ post '/reservation_with_cc' do
 		# Get Reservation data
 		reservation = data["reservation"]
 		result = db.insert_one reservation
-		savedReservation = db.find(:_id => result.inserted_id).to_a.first
 		
 		return {status: "error", error: "Unable to process reservation request right now. Please try again later", errorType: "local"} unless result.n == 1
 	end
@@ -113,9 +112,14 @@ post '/reservation_with_cc' do
 	end
 	# End try catch
 	
+	# Get appropriate reservationID
+	reservationID = data["retry"].nil? ? result.inserted_id : object_id(data["reservationID"])
 	# Update status of reservation
-	status = paymentResult.resultCode == 'E' ? "payment-declined" : "payment-accepted"
-	update = update_by_id(result.inserted_id, {:status => status})
+	status = paymentResult.resultCode != 'A' ? "payment-declined" : "payment-accepted"
+	update = update_by_id(reservationID, {:status => status})
+	
+	# Get saved reservation
+	savedReservation = db.find(:_id => reservationID).to_a.first
 	
 	# Return the payment status
 	{
