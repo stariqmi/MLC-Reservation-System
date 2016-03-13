@@ -48,6 +48,34 @@ module.exports = function(reservations) {
     var clndrTemplate = Handlebars.compile(clndrSource);
     
     var visitedMonths = {};
+    visitedMonths[moment().month() + 1] = true;
+    
+    var onMonthChange = function(m) {
+        var instance = this;    // clndr instance
+        var month = m.month() + 1;
+        
+        // Load data only if data for this month hasnt been loaded
+        if (!visitedMonths[month]) {
+            console.log('Requesting events for: ' + month);
+            // visit month
+            visitedMonths[month] = true;
+            
+            $.ajax('/reservations/' + month + '/' + month, {
+                method: 'GET',
+                success: function(data, status) {
+                    
+                    for (var di in data) {
+                        var d = data[di];
+                        var date = moment(d.pickup_date, 'MM/DD/YYYY');
+                        d.moment = moment;
+                        d.date = date.toISOString();
+                    }
+                    
+                    instance.addEvents(data);
+                }
+            });
+        }
+    }
     
     $('#calendar').clndr({
         render: function(data) {
@@ -59,31 +87,7 @@ module.exports = function(reservations) {
             $('#loading').hide();
         },
         clickEvents: {
-            onMonthChange: function(m) {
-                var instance = this;    // clndr instance
-                var month = m.month();
-                
-                // Load data only if data for this month hasnt been loaded
-                if (!visitedMonths[month]) {
-                    // visit month
-                    visitedMonths[month] = true;
-                    
-                    $.ajax('/reservations/' + month + '/' + (month+1), {
-                        method: 'GET',
-                        success: function(data, status) {
-                            
-                            for (var di in data) {
-                                var d = data[ri];
-                                var date = moment(d.pickup_date, 'MM/DD/YYYY');
-                                d.moment = moment;
-                                d.date = date.toISOString();
-                            }
-                            
-                            instance.addEvents(data);
-                        }
-                    });
-                }
-            }
+            onMonthChange: onMonthChange
         }
     });
 }

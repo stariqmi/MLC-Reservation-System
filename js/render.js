@@ -90,9 +90,9 @@ module.exports = {
 	
 	renderCalendar2: function() {
 		
-		var month = moment().month();
+		var month = moment().month() + 1;
 		
-		$.ajax('/reservations/' + month + '/' + (month+1), {
+		$.ajax('/reservations/' + month + '/' + month, {
 			method: 'GET',
 			success: function(data, status) {
 				drawCalendar(data);
@@ -157,7 +157,7 @@ module.exports = {
 						method: 'DELETE',
 						success: function(data, status) {
 							$('#loading').hide();
-							if (data.status === 'ok') page('/admin/calendar');
+							if (data.status === 'ok') page('/admin/calendar2');
 							else alert('Can not delete, please contact your developer');
 						}
 					});

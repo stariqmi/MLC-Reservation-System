@@ -166,12 +166,14 @@
 			<div class="days">
 				{{#each days}}
 					<div class="day {{classes}}">
-						<div class="day-content">{{day}}</div>
+						<div class="day-number">{{day}}</div>
+						<div class="day-events">
 						{{#each events}}
 							<div class="day-event {{status}}">
-								<a href="/admin/reservations/{{_id.$oid}}" >{{coach}}/{{pickup_time}}</a>
+								<a href="/admin/reservations/{{_id.$oid}}" >#{{coach}}<span class="hidden-xs">/{{pickup_time}}</span></a>
 							</div>
 						{{/each}}
+						</div>
 					</div>
 				{{/each}}
 			</div>
@@ -179,15 +181,17 @@
 		
 		<!-- CLNDR.js related template -->
 		<script id="clndr-template" type="type/x-handlebars-template">
-			<section>
+			<section id="calendar-section">
 				<div class="clndr-ctrls">
 					<div class="clndr-ctrl"><i class="glyphicon glyphicon-chevron-left clndr-previous-button"></i></div>
 					<div class="clndr-ctrl month-year col-sm-8">{{month}} - {{year}}</div>
 					<div class="clndr-ctrl"><i class="glyphicon glyphicon-chevron-right clndr-next-button col-sm-2"></i></div>
 				</div>
-				<div class="weekdays">
+				<div class="days weekdays">
 					{{#each daysOfTheWeek}}
-						<div class="weekday">{{this}}</div>
+						<div class="day weekday">
+							<div class="day-content">{{this}}</div>
+						</div>
 					{{/each}}
 				</div>
 				{{makeWeeks days}}

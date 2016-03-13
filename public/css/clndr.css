@@ -2,6 +2,10 @@
     font-family: Verdana, Geneva, sans-serif;
 }
 
+.today {
+    background-color: #ffffcc;
+}
+
 .clndr-ctrls {
     display: flex;
     flex-direction: row;
@@ -30,25 +34,6 @@
     flex-grow: 5;
 }
 
-.weekdays {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    margin-bottom: 10px;
-    justify-content: center;
-}
-
-.weekday {
-    min-width: 50px;
-    height: 25px;
-    order: 1;
-    text-align: center;
-    flex-grow: 1;
-    flex-shrink: 0;
-    color: #333333;
-    font-weight: bolder;
-}
-
 .days {
     display: flex;
     flex-direction: row;
@@ -63,15 +48,14 @@
     flex-shrink: 1;
     border: 1px solid black;
     with: 50px;
-    min-height: 125px;
+    min-height: 50px;
     color: #333333;
     overflow-x: hidden;
 }
 
-.day-content {
+.day-number {
     margin:5px;
-    width: 20px;
-    height: 20px;
+    text-align: right;
     font-size: 16px;
 }
 
@@ -80,8 +64,8 @@
 }
 
 .day-event {
-    font-size: 12px;
-    color: white;
+    margin-bottom: 1px;
+    text-align: center;
 }
 
 .day-event a {
@@ -106,4 +90,34 @@
 
 .not-paid {
     background-color: #ff0000;  
+}
+
+/* Uniform Borders */
+.days:nth-child(3) {
+    border-top: 1px solid black;
+}
+
+.days:last-child {
+    border-bottom: 1px solid black;
+}
+
+.day:nth-child(1) {
+    border-left: 2px solid black;
+}
+
+.day:last-child {
+    border-right: 2px solid black;
+}
+
+.weekday {
+    display: flex;
+    justify-content: center;
+    border:none;
+    line-height: 50px;
+    font-weight: bolder;
+    border: none !important;
+}
+
+.weekday .day-content {
+    margin: 0;
 }
