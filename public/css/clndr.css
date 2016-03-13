@@ -23,10 +23,6 @@
     font-weight: bolder;
 }
 
-.clndr-ctrl:hover {
-    cursor: pointer;
-}
-
 .days {
     display: flex;
     flex-direction: row;
