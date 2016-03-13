@@ -15,6 +15,7 @@
 		<link rel="stylesheet" href="/css/fullcalendar.min.css">
 		<link rel="stylesheet" href="/css/fullcalendar.print.css" media="print">
 		<link rel="stylesheet" href="/css/fullcalendar.overwrite.css">
+		<link rel="stylesheet" href="/css/clndr.css">
 		
 		<!-- Input Text Template -->
 		<script id="text-datetime-input-template" type="text/x-handlebars-template">
@@ -149,13 +150,46 @@
 		<!-- Calendar Template -->
 		<script id="calendar-template" type="type/x-handlebars-template">
 			<div class="legend row">
+				<!--
 				{{#each status}}
-					<div class="legend-item col-xs-3" style="background-color:{{color}}"><span>{{label}}</span></div>
+					<div class="legend-item col-sm-3" style="background-color:{{color}}"><span>{{label}}</span></div>
 				{{/each}}
+				-->
 			</div>
 			<div class="row">
 				<div class="calendar col-md-12" id="calendar"></div>
 			</div>
+		</script>
+		
+		<script id="week-template" type="type/x-handlebars-template">
+			<div class="days">
+				{{#each days}}
+					<div class="day {{classes}}">
+						<div class="day-content">{{day}}</div>
+						{{#each events}}
+							<div class="day-event {{status}}">
+								<a href="/admin/reservations/{{_id.$oid}}" >{{coach}}/{{pickup_time}}</a>
+							</div>
+						{{/each}}
+					</div>
+				{{/each}}
+			</div>
+		</script>
+		
+		<script id="clndr-template" type="type/x-handlebars-template">
+			<section>
+				<div class="clndr-ctrls">
+					<div class="clndr-ctrl"><i class="glyphicon glyphicon-chevron-left clndr-previous-button"></i></div>
+					<div class="clndr-ctrl month-year col-sm-8">{{month}} - {{year}}</div>
+					<div class="clndr-ctrl"><i class="glyphicon glyphicon-chevron-right clndr-next-button col-sm-2"></i></div>
+				</div>
+				<div class="weekdays">
+					{{#each daysOfTheWeek}}
+						<div class="weekday">{{this}}</div>
+					{{/each}}
+				</div>
+				{{makeWeeks days}}
+			</section>
 		</script>
 		
 		<!-- Transaction Info Template -->
@@ -188,7 +222,7 @@
 				<div class="row" id="reservation-buttons-container">
 					<div class="col-md-12">
 						<button class="delete-btn btn btn-primary">Delete Reservation</button>
-						<a href="/admin/calendar" class="btn btn-primary">View Calendar</a>
+						<a href="/admin/calendar2" class="btn btn-primary">View Calendar</a>
 					</div>
 				</div>
 			{{/if}}

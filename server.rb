@@ -65,6 +65,11 @@ helpers do
 		  :pickup_month => {:$gte => start_month, :$lte => end_month}}).to_a
       (documents || {}).to_json
   end
+  
+  def get_all_reservations
+  	documents = settings.mongo_db.find()
+	(documents || {}).to_json
+  end
 end
 
 # Routing Endpoints
@@ -162,6 +167,10 @@ get '/reservations/:start_month/:end_month' do
     content_type :json
     # Check for cookie before sending data
     get_reservations_by_month(params[:start_month].to_i, params[:end_month].to_i)
+end
+
+get '/reservations' do 
+	get_all_reservations
 end
 
 get '/reservations/:id' do

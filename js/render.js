@@ -15,6 +15,7 @@ var afterRender = require('./afterRender');
 var displayAfterRender = require('./displayAfterRender');
 var submit = require('./submit');
 var calendarOptions = require('./calendarOptions');
+var drawCalendar = require('./clndr.js');
 
 var contentContainerClass = ".contentContainer";
 var $contentContainer = $(contentContainerClass);
@@ -85,6 +86,19 @@ module.exports = {
 		
 		$contentContainer.html(template(status_json));
 		$('#calendar').fullCalendar(calendarOptions);
+	},
+	
+	renderCalendar2: function() {
+		
+		var month = moment().month();
+		
+		$.ajax('/reservations/' + month + '/' + (month+1), {
+			method: 'GET',
+			success: function(data, status) {
+				console.log(data);
+				drawCalendar(data);
+			}
+		});
 	},
 	
 	renderReservation: function(reservationID, ADMIN) {
