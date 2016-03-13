@@ -51,8 +51,16 @@ module.exports = function(reservations) {
     visitedMonths[moment().month() + 1] = true;
     
     var onMonthChange = function(m) {
+        
+        
         var instance = this;    // clndr instance
         var month = m.month() + 1;
+        
+        // (de)activate today button
+        var currentMonth = moment().month() + 1;
+        
+        var todayDisabled = (currentMonth === month);
+        $('#today-button').attr('disabled', todayDisabled);
         
         // Load data only if data for this month hasnt been loaded
         if (!visitedMonths[month]) {
@@ -83,6 +91,9 @@ module.exports = function(reservations) {
         },
         events: reservations,
         forceSixRows: true,
+        ready: function() {
+            $('#today-button').attr('disabled', true);
+        },
         doneRendering: function() {
             $('#loading').hide();
         },
