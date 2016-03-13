@@ -16,14 +16,14 @@
         },
         {
             "id": "expiry",
-            "label": "Expiry",
+            "label": "Expiration Date",
             "error": "Please enter expiry date in the format MMYY",
             "validate": "isValidExpiry",
             "required": true
         },
         {
             "id": "cvv2",
-            "label": "CVV2/CID",
+            "label": "CVV2/Security Code",
             "required": false,
             "validate": "noop"
         },
@@ -43,7 +43,7 @@
         },
         {
             "id": "amount",
-            "label": "Amount",
+            "label": "Deposit amount or full payment",
             "error": "Amount can not be empty",
             "validate": "isValidAmount",
             "required": true

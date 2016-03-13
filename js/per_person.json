@@ -131,14 +131,14 @@
 				{
 					"containerId":	"dropoff-time-input-container",
 					"id": 			"dropoff_time",
-					"label": 		"Dropoff Time",
+					"label": 		"Drop Off Time",
 					"type": 		"time",
 					"placeholder":	"Dropoff Time"
 				},
 				{
 					"containerId":	"dropoff-addr-input-container",
 					"id": 			"dropoff_addr",
-					"label": 		"Dropoff Address",
+					"label": 		"Drop Off Address",
 					"type": 		"text",
 					"placeholder":	"Dropoff Address"
 				},
