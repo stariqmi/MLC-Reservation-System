@@ -5,6 +5,7 @@ var jqUI = require('jquery-ui');
 var moment = require('moment');
 var Fullcalendar = require('fullcalendar');
 var page = require('page');
+var deepClone = require('clone-deep');
 
 // forms json
 var per_person_json = require('./per_person.json');
@@ -21,18 +22,22 @@ var $contentContainer = $(contentContainerClass);
 module.exports = {
 	renderForm: function(formType, DEBUG) {
 		
-		var source = $('#sections-template').html();
+		var source = $('#form-template').html();
 		var template = Handlebars.compile(source);
 		
 		var formSpec;
 		
+		// Need to clone it so that the source spec doesnt get polluted
 		switch (formType) {
 			case 'pp':
-				formSpec = per_person_json;
+				formSpec = deepClone(per_person_json);
 				break;
 			default:
-				formSpec = per_person_json;
+				formSpec = deepClone(per_person_json);
 		}
+		
+		// Add the Credit Card form spec
+		formSpec.ccSpec = cc_form_json;
 		
 		// Add form page
 		$contentContainer.append(template(formSpec));
@@ -57,16 +62,7 @@ module.exports = {
 			}
 		}
 		
-		// Add Credit card payment
-		var ccSource = $('#payment-template').html();
-		var ccTemplate = Handlebars.compile(ccSource);
-		
-		$contentContainer.append(ccTemplate({fields: cc_form_json.fields}));
 		$('.error-info').hide();
-		
-		var submitSource = $("#reservation-submit-template").html();
-		var submitTemplate = Handlebars.compile(submitSource);
-		$contentContainer.append(submitTemplate());
 		
 		// On submit form click
 		// Validate required fields
@@ -111,6 +107,11 @@ module.exports = {
 				
 				// This enable the delete button
 				spec.admin = ADMIN;
+				
+				if (spec.admin) {
+					console.log(data);
+					spec.transaction = data.transaction || {};
+				}
 				
 				for (var si in spec.sections) {
 					for (var fi in spec.sections[si].fields) {

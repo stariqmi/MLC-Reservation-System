@@ -6,14 +6,19 @@
             "color":    "#ff0000" 
         },
         {
-            "status":   "payment-accepted",
-            "label":    "Accepted",
-            "color":    "#00cc00"
+            "status":   "payment-failed",
+            "label":    "Failed",
+            "color":    "#ff6600"
         },
         {
             "status":   "payment-declined",
             "label":    "Declined",
-            "color":    "#ff6600"
+            "color":    "#e6e600"
+        },
+        {
+            "status":   "payment-accepted",
+            "label":    "Accepted",
+            "color":    "#00cc00"
         }
     ]
 }

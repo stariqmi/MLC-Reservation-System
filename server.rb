@@ -121,8 +121,28 @@ post '/reservation_with_cc' do
 	# Get appropriate reservationID
 	reservationID = data["retry"].nil? ? result.inserted_id : object_id(data["reservationID"])
 	# Update status of reservation
-	status = paymentResult.resultCode != 'A' ? "payment-declined" : "payment-accepted"
-	update = update_by_id(reservationID, {:status => status})
+	status = case paymentResult.resultCode
+	when "A"
+		"payment-accepted"
+	when "D"
+		"payment-declined"
+	when "E"
+		"payment-failed"
+	end
+	
+	update = update_by_id(reservationID, {
+		:status => status,
+		:transaction => {
+			:status => paymentResult.result,
+			:amount => paymentResult.authAmount,
+			:cardHolder => data["cc"]["fullName"],
+			:cardNumber => data["cc"]["cardNumber"][data["cc"]["cardNumber"].length - 4, data["cc"]["cardNumber"].length],
+			:refNum => paymentResult.refNum,
+			:avsResult => paymentResult.avsResult,
+			:authorization => paymentResult.authCode,
+			:cvv2Result => paymentResult.cardCodeResult
+		}
+	})
 	
 	# Get saved reservation
 	savedReservation = db.find(:_id => reservationID).to_a.first

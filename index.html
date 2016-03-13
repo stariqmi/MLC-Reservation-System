@@ -14,6 +14,7 @@
 		<link rel="stylesheet" href="/css/reservationDisplay.css">
 		<link rel="stylesheet" href="/css/fullcalendar.min.css">
 		<link rel="stylesheet" href="/css/fullcalendar.print.css" media="print">
+		<link rel="stylesheet" href="/css/fullcalendar.overwrite.css">
 		
 		<!-- Input Text Template -->
 		<script id="text-datetime-input-template" type="text/x-handlebars-template">
@@ -41,43 +42,66 @@
 		</script>
 		
 		<!-- Sections Template -->
-		<script id="sections-template" type="text/x-handlebars-template">
-			<div class="row">
-				<!-- Header, form name -->
-				<div class="col-md-12 header">
-					<h1>Miami Limo Coach</h1>
-					<h2>Reservation From</h2>
-				</div>
-			</div>
-			<div class="row" id="reservation-form-container">
-				{{#each sections}}
-					<div class="col-md-6">
-						{{#each fields}}
-							{{> inputDisplay}}
-						{{/each}}
+		<script id="form-template" type="text/x-handlebars-template">
+			<header class="main-header">
+				<div class="row">
+					<!-- Header, form name -->
+					<div class="col-md-12 header">
+						<h2>Miami Limo Coach</h2>
+						<h3>Reservation From</h3>
 					</div>
-				{{/each}}
-			</div>
+				</div>
+			</header>
+			<section>
+				<header class="sub-header">
+					<div class="row">
+						<div class="col-md-12">
+							<h3>Pickup Information</h3>
+						</div>
+					</div>
+				</header>
+				<div class="row" id="reservation-form-container">
+					{{#each sections}}
+						<div class="col-md-6">
+							{{#each fields}}
+								{{> inputDisplay}}
+							{{/each}}
+						</div>
+					{{/each}}
+				</div>
+			</section>
+			{{> ccPayment ccSpec}}
+			{{> reservationSubmit}}
+			<footer></footer>
 		</script>
 		
 		<!-- Payment Template -->
 		<script id="payment-template" type="text/x-handlebars-template">
-			<div class="row">
-				<div class="col-md-4" id="payment-container">
-					<h2>Credit Card Payment</h2>
-					<p class="transaction error-info"></p>
-					{{#each fields}}
-						<div class="form-group" id="{{id}}-container">
-							<label>{{label}}</label>
-							<input id="{{id}}" type="text" class="form-control"/>
-							<p class="error-info">{{error}}</p>
+			<section>
+				<header class="sub-header">
+					<div class="row">
+						<div class="col-md-12">
+							<h3>Payment</h3>
 						</div>
-					{{/each}}
+					</div>
+				</header>
+				<div class="row">
+					<div class="col-md-6" id="payment-container">
+						<p class="transaction error-info"></p>
+						{{#each fields}}
+							<div class="form-group" id="{{id}}-container">
+								<label>{{label}}</label>
+								<input id="{{id}}" type="text" class="form-control"/>
+								<p class="error-info">{{error}}</p>
+							</div>
+						{{/each}}
+					</div>
 				</div>
-			</div>
+			</header>
 		</script>
 		
 		<script id="reservation-submit-template" type="text/x-handlebars-template">
+			<section>
 			<div class="row">
 				<div class="col-md-12" id="security-info">
 					<center>
@@ -93,7 +117,7 @@
 				
 				<div class="col-md-12">
 					<center>
-						<button id="btn-submit" type="button" class="btn btn-primary">Submit Reservation / Make Payment</button>
+						<button id="btn-submit" type="button" class="btn btn-primary btn-lg">Submit Reservation / Make Payment</button>
 					</center>
 				</div>
 				
@@ -119,25 +143,47 @@
 					</p>
 				</div>
 			</div>
+			</section>
 		</script>
 		
 		<!-- Calendar Template -->
 		<script id="calendar-template" type="type/x-handlebars-template">
 			<div class="legend row">
 				{{#each status}}
-					<!-- Remove these comments if legend is needed
-					<div class="legend row">
-						<div class="legend-item col-xs-6" style="background-color:{{color}}">{{label}}</div>
-					</div>
-					-->
+					<div class="legend-item col-xs-3" style="background-color:{{color}}"><span>{{label}}</span></div>
 				{{/each}}
+			</div>
 			<div class="row">
 				<div class="calendar col-md-12" id="calendar"></div>
 			</div>
 		</script>
 		
+		<!-- Transaction Info Template -->
+		<script id="transaction-info" type="type/x-handlebars-template">
+			<section>
+				<div class="row"><div class="col-md-12"><h3>Transaction Information</h3></div></div>
+				<div class="row">
+					<div class="col-md-12">						
+						<table class="table table-bordered table-condensed">
+							<tbody>
+								<tr><td><b>Reference #</b></td><td>{{refNum}}</td></tr>
+								<tr class="warning"><td><b>Status</b></td><td>{{status}}</td></tr>
+								<tr><td><b>Card Holder</b></td><td>{{cardHolder}}</td></tr>
+								<tr><td><b>Card Number</b></td><td>XXXXXXXXXXXX{{cardNumber}}</td></tr>
+								<tr><td><b>Amount</b></td><td>{{amount}}</td></tr>
+								<tr><td><b>Authorization</b></td><td>{{authorization}}</td></tr>
+								<tr><td><b>AVS Result</b></td><td>{{avsResult}}</td></tr>
+								<tr><td><b>CVV2 Result</b></td><td>{{cvv2Result}}</td></tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+		</script>
+		
 		<!-- Reservation View Template -->
 		<script id="reservation-display-template" type="type/x-handlebars-template">
+			<header>
 			{{#if admin}}
 				<div class="row" id="reservation-buttons-container">
 					<div class="col-md-12">
@@ -146,17 +192,32 @@
 					</div>
 				</div>
 			{{/if}}
-			{{#each sections}}
+			</header>
+			
+			<section>
 				<div class="row">
-					<div class="col-md-12 reservation-display-section">
-						{{#each fields}}
-							<div class="reservation-field-info-container">
-								<p><b>{{label}}</b> : <span id="{{id}}">{{value}}</span></p>
-							</div>
-						{{/each}}
+					<div class="col-md-12"><h3>Reservation Details</h3></div>
+				</div>
+				
+				<div class="row reservation-display-section">
+					<div class="col-md-12">
+						<table class="table table-bordered table-condensed">
+							{{#each sections}}
+								{{#each fields}}
+									<tr class="reservation-field-info-container">
+										<td><b>{{label}}</b></td>
+										<td><span id="{{id}}">{{value}}</span></td>
+									</tr>
+								{{/each}}
+							{{/each}}
+						</table>
 					</div>
 				</div>
-			{{/each}}
+			</section>
+			
+			{{#if admin}}
+				{{>transactionInfo transaction}}
+			{{/if}}
 			<footer></footer>
 		</script>
 		

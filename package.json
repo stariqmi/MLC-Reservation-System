@@ -13,6 +13,7 @@
   "author": "Salman Tariq Mirza",
   "license": "ISC",
   "dependencies": {
+    "clone-deep": "^0.2.4",
     "fullcalendar": "^2.6.1",
     "handlebars": "^4.0.5",
     "jquery": "2.2.1",

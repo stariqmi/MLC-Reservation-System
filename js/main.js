@@ -35,6 +35,12 @@ $(document).ready(function() {
 		var partialA = $('#text-datetime-input-template').html();
 		Handlebars.registerPartial('inputDisplay', partialA);
 		
+		var partialB = $('#reservation-submit-template').html();
+		Handlebars.registerPartial('reservationSubmit', partialB);
+		
+		var ccPartial = $("#payment-template").html();
+		Handlebars.registerPartial('ccPayment', ccPartial);
+		
 		var formID = ctx.params.formID;
 		// Second argument is debug flag
 		render.renderForm(formID, true);
@@ -47,6 +53,11 @@ $(document).ready(function() {
 	
 	page('/admin/reservations/:id', function(ctx) {
 		$contentContainer.empty();
+		
+		// Register Helper
+		var partial = $('#transaction-info').html();
+		Handlebars.registerPartial('transactionInfo', partial);
+		
 		render.renderReservation(ctx.params.id, true);
 	});
 	
