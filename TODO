@@ -7,3 +7,10 @@ http://stackoverflow.com/questions/8998496/xml-processor-module-not-found-error-
 change paths to require relative
 
 ===== Requirements =====
+- Testing more events on same day
+- Testing events on the next and previous months
+- Check that duplicate events are not loaded
+- Default reduced height on no events
+- Uniform borders
+- bigger buttons for navigation
+- Investigate mobile view/width and alignment of weekday symbols with day block

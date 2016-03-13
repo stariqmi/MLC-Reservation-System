@@ -95,7 +95,6 @@ module.exports = {
 		$.ajax('/reservations/' + month + '/' + (month+1), {
 			method: 'GET',
 			success: function(data, status) {
-				console.log(data);
 				drawCalendar(data);
 			}
 		});

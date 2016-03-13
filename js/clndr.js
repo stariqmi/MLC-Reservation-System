@@ -47,6 +47,8 @@ module.exports = function(reservations) {
     var clndrSource = $('#clndr-template').html();
     var clndrTemplate = Handlebars.compile(clndrSource);
     
+    var visitedMonths = {};
+    
     $('#calendar').clndr({
         render: function(data) {
             return clndrTemplate(data);
@@ -55,6 +57,33 @@ module.exports = function(reservations) {
         forceSixRows: true,
         doneRendering: function() {
             $('#loading').hide();
+        },
+        clickEvents: {
+            onMonthChange: function(m) {
+                var instance = this;    // clndr instance
+                var month = m.month();
+                
+                // Load data only if data for this month hasnt been loaded
+                if (!visitedMonths[month]) {
+                    // visit month
+                    visitedMonths[month] = true;
+                    
+                    $.ajax('/reservations/' + month + '/' + (month+1), {
+                        method: 'GET',
+                        success: function(data, status) {
+                            
+                            for (var di in data) {
+                                var d = data[ri];
+                                var date = moment(d.pickup_date, 'MM/DD/YYYY');
+                                d.moment = moment;
+                                d.date = date.toISOString();
+                            }
+                            
+                            instance.addEvents(data);
+                        }
+                    });
+                }
+            }
         }
     });
 }
