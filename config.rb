@@ -6,7 +6,7 @@ class ServerConfig
     def initialize
         # Thin Server configuration
         @thinPort = 3458
-        @env = :development
+        @env = :production
 
     	# Development DB
     	mongoDevUrl = "mongodb://root:root@ds023408.mlab.com:23408"
