@@ -15,8 +15,6 @@
   "dependencies": {
     "clndr": "^1.4.1",
     "clone": "^1.0.2",
-    "clone-deep": "^0.2.4",
-    "fullcalendar": "^2.6.1",
     "handlebars": "^4.0.5",
     "jquery": "2.2.1",
     "jquery-ui": "^1.10.4",

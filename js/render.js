@@ -110,8 +110,18 @@ module.exports = {
 					case 'per_person':
 						spec = per_person_json
 						break;
+					case 'total_price':
+						spec = total_price_json
+						break;
+					case 'hourly_rate':
+						spec = hourly_rate_json
+						break;
 					default:
-						spec = per_person_json;
+						throw new Error(
+							'Undefined form_type for reservation. Cannot determine how to display',
+							'render.js',
+							120
+						)
 				}
 				
 				// This enable the delete button

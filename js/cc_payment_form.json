@@ -4,6 +4,7 @@
             "id": "fullName",
             "label": "Full Name on Credit Card",
             "error": "Full name is required",
+            "placeholder": "Full name on credit card",
             "required": true,
             "validate": "isNotEmpty"
         },
@@ -11,6 +12,7 @@
             "id": "cardNumber",
             "label": "Credit Card Number",
             "error": "Credit Card number is required",
+            "placeholder": "Credit card number",
             "validate": "isNotEmpty",
             "required": true
         },
@@ -18,12 +20,14 @@
             "id": "expiry",
             "label": "Expiration Date",
             "error": "Please enter expiry date in the format MMYY",
+            "placeholder": "Expirate date",
             "validate": "isValidExpiry",
             "required": true
         },
         {
             "id": "cvv2",
             "label": "CVV2/Security Code",
+            "placeholder": "Security code on the back",
             "required": false,
             "validate": "noop"
         },
@@ -31,6 +35,7 @@
             "id": "streetAddr",
             "label": "Street Address",
             "error": "Please enter street address",
+            "placeholder": "Address",
             "validate": "isNotEmpty",
             "required": true
         },
@@ -38,6 +43,7 @@
             "id": "zip",
             "label": "Zip Code",
             "error": "Please enter a zipcode",
+            "placeholder": "Zip Code",
             "validate": "isNotEmpty",
             "required": true
         },
@@ -45,6 +51,7 @@
             "id": "amount",
             "label": "Deposit amount or full payment",
             "error": "Amount can not be empty",
+            "placeholder": "Deposit amount or full payment",
             "validate": "isValidAmount",
             "required": true
         }

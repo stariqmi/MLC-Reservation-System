@@ -92,7 +92,7 @@
 						{{#each fields}}
 							<div class="form-group" id="{{id}}-container">
 								<label>{{label}}</label>
-								<input id="{{id}}" type="text" class="form-control"/>
+								<input id="{{id}}" type="text" class="form-control" placeholder="{{placeholder}}"/>
 								<p class="error-info">{{error}}</p>
 							</div>
 						{{/each}}
@@ -242,7 +242,7 @@
 				<div class="row" id="reservation-buttons-container">
 					<div class="col-md-12">
 						<button class="delete-btn btn btn-primary">Delete Reservation</button>
-						<a href="/admin/calendar2" class="btn btn-primary">View Calendar</a>
+						<a href="/admin/calendar" class="btn btn-primary">View Calendar</a>
 					</div>
 				</div>
 			{{/if}}

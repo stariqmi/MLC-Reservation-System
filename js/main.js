@@ -42,8 +42,9 @@ $(document).ready(function() {
 		Handlebars.registerPartial('ccPayment', ccPartial);
 		
 		var formID = ctx.params.formID;
+		
 		// Second argument is debug flag
-		render.renderForm(formID, true);
+		render.renderForm(formID, false);
 	});
 	
 	page('/admin/calendar', function() {
@@ -58,11 +59,14 @@ $(document).ready(function() {
 		var partial = $('#transaction-info').html();
 		Handlebars.registerPartial('transactionInfo', partial);
 		
+		// Second parameter is for admin flag
 		render.renderReservation(ctx.params.id, true);
 	});
 	
 	page('/reservations/:id', function(ctx) {
 		$contentContainer.empty();
+		
+		// Second parameter is for admin flag
 		render.renderReservation(ctx.params.id, false);
 	});
 	
