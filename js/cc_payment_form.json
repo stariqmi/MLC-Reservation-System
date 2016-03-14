@@ -51,7 +51,7 @@
             "id": "amount",
             "label": "Deposit amount or full payment",
             "error": "Amount can not be empty",
-            "placeholder": "Deposit amount or full payment",
+            "placeholder": "$",
             "validate": "isValidAmount",
             "required": true
         }
