@@ -73,22 +73,8 @@ module.exports = {
 		// Hide it after everything is rendered
 		$('#loading').hide();
 	},
-	
+		
 	renderCalendar: function() {
-		
-		/*
-			Authenticate via cookie
-			If authentication fails, render empty template
-			Else render calender
-		*/
-		var source = $('#calendar-template').html();
-		var template = Handlebars.compile(source);
-		
-		$contentContainer.html(template(status_json));
-		$('#calendar').fullCalendar(calendarOptions);
-	},
-	
-	renderCalendar2: function() {
 		
 		var month = moment().month() + 1;
 		

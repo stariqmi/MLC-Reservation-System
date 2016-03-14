@@ -51,11 +51,6 @@ $(document).ready(function() {
 		render.renderCalendar();
 	});
 	
-	page('/admin/calendar2', function() {
-		$contentContainer.empty();
-		render.renderCalendar2();
-	});
-	
 	page('/admin/reservations/:id', function(ctx) {
 		$contentContainer.empty();
 		
