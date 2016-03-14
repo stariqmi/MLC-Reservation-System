@@ -163,7 +163,7 @@ module.exports = {
 						method: 'DELETE',
 						success: function(data, status) {
 							$('#loading').hide();
-							if (data.status === 'ok') page('/admin/calendar2');
+							if (data.status === 'ok') page('/admin/calendar');
 							else alert('Can not delete, please contact your developer');
 						}
 					});
