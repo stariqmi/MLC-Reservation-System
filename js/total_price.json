@@ -1,0 +1,207 @@
+{
+	"name": "total_price",
+	"header": "Total Price",
+	"sections": [
+		{
+			"name":		"A",
+			"fields": 	[
+				{
+					"containerId":	"fname-input-container",
+					"id": 			"fname",
+					"label": 		"First Name",
+					"type": 		"text",
+					"required": 	true,
+					"error": 		"First name is required",
+					"placeholder":	"Your first name",
+					"validate":		"isNotEmpty",
+					"debugVal":		"Salman"
+				},
+				{
+					"containerId":	"lname-input-container",
+					"id": 			"lname",
+					"label": 		"Last Name",
+					"type": 		"text",
+					"required": 	true,
+					"error": 		"Last name is required",
+					"placeholder":	"Your last name",
+					"validate":		"isNotEmpty",
+					"debugVal":		"Tariq"
+				},
+				{
+					"containerId":	"company-input-container",
+					"id": 			"company",
+					"label": 		"Company Name (if rented by company)",
+					"type": 		"text",
+					"placeholder":	"Your company name"
+				},
+				{
+					"containerId":	"ph1-input-container",
+					"id": 			"ph1",
+					"label": 		"Phone #",
+					"type": 		"text",
+					"required": 	true,
+					"error": 		"Phone # is required",
+					"placeholder":	"Your phone number",
+					"validate":		"isNotEmpty",
+					"debugVal":		"226-606-9930",
+					"displayAfterRender": "makeClickableTel"
+				},
+				{
+					"containerId":	"ph2-input-container",
+					"id": 			"ph2",
+					"label": 		"Phone # - Alternate",
+					"type": 		"text",
+					"placeholder":	"Your alternate phone number",
+					"displayAfterRender": "makeClickableTel"
+				},
+				{
+					"containerId":	"email-input-container",
+					"id": 			"email",
+					"label": 		"Email",
+					"type": 		"text",
+					"required": 	true,
+					"error": 		"Please enter a valid email",
+					"placeholder":	"Your Email Address",
+					"validate":		"isValidEmail",
+					"debugVal":		"salmantariq@gmail.com",
+					"displayAfterRender": "makeClickableEmail"
+				},
+				{
+					"containerId":	"pickup-date-input-container",
+					"id": 			"pickup_date",
+					"label": 		"Pickup Date",
+					"type": 		"date",
+					"required": 	true,
+					"error": 		"Please select a date",
+					"placeholder":	"Pickup Date",
+					"afterRender":	"convertToDatepicker",
+					"validate":		"isNotEmpty",
+					"debugVal":		"03/23/2016"
+				},
+				{
+					"containerId":	"pickup-time-input-container",
+					"id": 			"pickup_time",
+					"label": 		"Pickup Time",
+					"type": 		"time",
+					"required": 	true,
+					"error": 		"Please enter time in the format: hh:mm AM|PM",
+					"placeholder":	"Pickup Time",
+					"helpText":		"Please enter time in the format: hh:mm AM|PM",
+					"validate":		"isValidTime",
+					"debugVal":		"20:20 PM"
+				},
+				{
+					"containerId":	"pickup-addr-input-container",
+					"id": 			"pickup_addr",
+					"label": 		"Pickup Address",
+					"type": 		"text",
+					"required": 	true,
+					"error": 		"Please enter a valid address",
+					"placeholder":	"Pickup Address",
+					"validate":		"isNotEmpty",
+					"debugVal":		"Street"
+				},
+				{
+					"containerId":	"pickup-city-input-container",
+					"id": 			"pickup_city",
+					"label": 		"Pickup City",
+					"type": 		"text",
+					"required": 	true,
+					"error": 		"Please enter a valid city",
+					"placeholder":	"Pickup City",
+					"validate":		"isNotEmpty",
+					"debugVal":		"Sunnyvale"
+				},
+				{
+					"containerId":	"pickup-zip-input-container",
+					"id": 			"pickup_zip",
+					"label": 		"Pickup Zip",
+					"type": 		"text",
+					"required": 	true,
+					"error": 		"Please enter a zip code",
+					"placeholder":	"Pickup Zip code",
+					"validate":		"isNotEmpty",
+					"debugVal":		"94040"
+				}
+			]
+		},
+		{
+			"name":		"B",
+			"fields": 	[
+				{
+					"containerId":	"dropoff-time-input-container",
+					"id": 			"dropoff_time",
+					"label": 		"Drop Off Time",
+					"type": 		"time",
+					"placeholder":	"Dropoff Time"
+				},
+				{
+					"containerId":	"passenger-count-input-container",
+					"id": 			"passenger_count",
+					"label": 		"Number of Passengers",
+					"type": 		"text",
+					"placeholder":	"Number of Passengers"
+				},
+				{
+					"containerId":	"total-price-input-container",
+					"id": 			"total_price",
+					"label": 		"Total Price",
+					"type": 		"text",
+					"required": 	true,
+					"error": 		"Please enter total price",
+					"placeholder":	"Total Price",
+					"validate":		"isNotEmpty",
+					"debugVal":		30
+				},
+				{
+					"containerId":	"hours-needed-input-container",
+					"id": 			"hours_needed",
+					"label": 		"Hours Needed",
+					"type": 		"text",
+					"required": 	true,
+					"error": 		"Please enter hours needed",
+					"placeholder":	"Hours Needed",
+					"validate":		"isNotEmpty",
+					"debugVal":		30
+				},
+				{
+					"containerId":	"occassion-type-input-container",
+					"id": 			"occassion_type",
+					"label": 		"Type of Occassion",
+					"type": 		"text",
+					"placeholder":	"Type of Occassion"
+				},
+				{
+					"containerId":	"coach-input-container",
+					"id": 			"coach",
+					"label": 		"Coach",
+					"type": 		"select",
+					"options":		[
+							{"label": 1, "value": 1},
+							{"label": 2, "value": 2},
+							{"label": 3, "value": 3},
+							{"label": 4, "value": 4},
+							{"label": 5, "value": 5},
+							{"label": 6, "value": 6},
+							{"label": 7, "value": 7},
+							{"label": 8, "value": 8},
+							{"label": 9, "value": 9},
+							{"label": 10, "value": 10}
+					],
+					"required": 	true,
+					"error": 		"Please select a coach",
+					"validate":		"isNotEmpty",
+					"debugVal":		3
+				},
+				{
+					"containerId":	"special-instructions-input-container",
+					"id": 			"special_instructions",
+					"label": 		"Special Instructions",
+					"type": 		"text",
+					"textarea":		true,
+					"textareaPlaceholder": "Special Instructions for your reservation"
+				}
+			]
+		}
+	]
+}

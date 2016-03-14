@@ -66,6 +66,12 @@ $(document).ready(function() {
 		render.renderReservation(ctx.params.id, false);
 	});
 	
+	page('*', function() {
+		$contentContainer.empty();
+		$contentContainer.append('<h1>Miami Limo Coach Reservations</h1>');
+		$contentContainer.append('<p>404 -The page you are looking for does not exists.</p>');
+	})
+	
 	page.start({
 		hashbang: true
 	});

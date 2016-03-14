@@ -64,13 +64,15 @@ module.exports = function(reservations) {
         
         // Load data only if data for this month hasnt been loaded
         if (!visitedMonths[month]) {
-            console.log('Requesting events for: ' + month);
+            $('#loading').show();
+            
             // visit month
             visitedMonths[month] = true;
             
             $.ajax('/reservations/' + month + '/' + month, {
                 method: 'GET',
                 success: function(data, status) {
+                    
                     
                     for (var di in data) {
                         var d = data[di];
@@ -80,6 +82,7 @@ module.exports = function(reservations) {
                     }
                     
                     instance.addEvents(data);
+                    $("#loading").hide();
                 }
             });
         }

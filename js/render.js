@@ -3,18 +3,20 @@ var $ = require('jquery');
 var Handlebars = require('handlebars');
 var jqUI = require('jquery-ui');
 var moment = require('moment');
-var Fullcalendar = require('fullcalendar');
 var page = require('page');
-var deepClone = require('clone-deep');
+var clone = require('clone');
 
 // forms json
 var per_person_json = require('./per_person.json');
+var total_price_json = require('./total_price.json');
+var hourly_rate_json = require('./hourly_rate.json');
 var cc_form_json = require('./cc_payment_form.json');
 var status_json = require('./status.json');
+
+// Local modules
 var afterRender = require('./afterRender');
 var displayAfterRender = require('./displayAfterRender');
 var submit = require('./submit');
-var calendarOptions = require('./calendarOptions');
 var drawCalendar = require('./clndr.js');
 
 var contentContainerClass = ".contentContainer";
@@ -31,14 +33,22 @@ module.exports = {
 		// Need to clone it so that the source spec doesnt get polluted
 		switch (formType) {
 			case 'pp':
-				formSpec = deepClone(per_person_json);
+				formSpec = clone(per_person_json);
+				break;
+			case 'tp':
+				formSpec = clone(total_price_json);
+				break
+			case 'hr':
+				formSpec = clone(hourly_rate_json);
 				break;
 			default:
-				formSpec = deepClone(per_person_json);
+				// formSpec = clone(per_person_json);
+				page('/404');
+				break
 		}
 		
 		// Add the Credit Card form spec
-		formSpec.ccSpec = cc_form_json;
+		formSpec.ccSpec = clone(cc_form_json);
 		
 		// Add form page
 		$contentContainer.append(template(formSpec));
