@@ -156,7 +156,7 @@
 					"type": 		"text",
 					"required": 	true,
 					"error": 		"Please enter per person rate",
-					"placeholder":	"Per person rate",
+					"placeholder":	"$",
 					"validate":		"isNotEmpty",
 					"debugVal":		30
 				},

@@ -14,10 +14,10 @@ module DbUtils
 	def document_by_id id
 		id = object_id(id) if String === id
 		if id.nil?
-			{}.to_json
+			{}
 		else
 			document = settings.mongo_db.find(:_id => id).to_a.first
-			(document || {}).to_json
+			(document || {})
 		end
 	end
 	

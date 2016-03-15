@@ -1,6 +1,11 @@
 {
     "status": [
         {
+            "status":   "reservation-only",
+            "label":    "Reservation Only",
+            "color":    "#0099ff"
+        },
+        {
             "status":   "pre-payment",
             "label":    "Not paid",
             "color":    "#ff0000" 

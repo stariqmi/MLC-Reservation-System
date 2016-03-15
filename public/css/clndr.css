@@ -65,6 +65,11 @@
     cursor: pointer;
 }
 
+/*-------Event colors--------*/
+.reservation-only {
+    background-color: #0099ff;
+}
+
 .payment-accepted {
     background-color: #29a329;
 }
@@ -76,6 +81,8 @@
 .payment-failed {
     background-color: #ff6600;
 }
+/*-----------------------------*/
+
 
 .not-paid {
     background-color: #ff0000;  

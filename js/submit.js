@@ -61,9 +61,27 @@ module.exports = {
                     }
                 }
                 
+                // Check if person is only making a reservation
+                var ccEmpty = true;
+                for (var ci in ccInfo) {
+                    if (ccInfo[ci] !== "") {
+                        ccEmpty = false;
+                        break;
+                    }
+                }
+                
+                if (ccEmpty) {
+                    $('.error-info').hide();
+                    isValidCCInfo = true;
+                    reservationInfo.reservation_only = true;
+                }
+                else {
+                    reservationInfo.reservation_only = false;
+                }
+                
                 if (isValidReservation && isValidCCInfo) {
                     $('#loading').show();
-                    reservationInfo['status'] = 'pre-payment'; // i.e the payment has not been processed
+                    reservationInfo['status'] = (ccEmpty) ? 'reservation-only' : 'pre-payment';
                     
                     // Add pickup month, day, year
                     var pickup_data = reservationInfo.pickup_date.split('/');

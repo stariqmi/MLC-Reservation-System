@@ -169,6 +169,7 @@
 						<div class="day-number">{{day}}</div>
 						<div class="day-events">
 						{{#each events}}
+							<!-- Reservation status ({{status}}) adds a class that points to a css class in clndr.css -->
 							<div class="day-event {{status}}">
 								<a href="/admin/reservations/{{_id.$oid}}" >#{{coach}}<span class="hidden-xs">/{{pickup_time}}</span></a>
 							</div>

@@ -149,7 +149,7 @@
 					"type": 		"text",
 					"required": 	true,
 					"error": 		"Please enter hourly rate",
-					"placeholder":	"Hourly Rate",
+					"placeholder":	"$",
 					"validate":		"isNotEmpty",
 					"debugVal":		30
 				},

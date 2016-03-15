@@ -149,7 +149,7 @@
 					"type": 		"text",
 					"required": 	true,
 					"error": 		"Please enter total price",
-					"placeholder":	"Total Price",
+					"placeholder":	"$",
 					"validate":		"isNotEmpty",
 					"debugVal":		30
 				},

@@ -38,83 +38,108 @@ end
 
 # Add reservation with Credit Card
 post '/reservation_with_cc' do
-	request.body.rewind
-	data = JSON.parse request.body.read
+
+	# Declare all variables to keep track
+	reservation = nil
+	insertResult = nil
+	ccData = nil
+	paymentResult = nil
+	epay = nil
+	reservationID = nil
+	response = nil
 	
 	content_type :json
 	db = settings.mongo_db
 	
+	request.body.rewind
+	data = JSON.parse request.body.read
+	
+	reservation = data["reservation"]
+	ccData = data["cc"]
+	
 	# If it's a fresh reservation request
 	if data["retry"].nil?
 		# Get Reservation data
-		reservation = data["reservation"]
-		result = db.insert_one reservation
+		insertResult = db.insert_one reservation
 		
-		return {status: "error", error: "Unable to process reservation request right now. Please try again later", errorType: "local"} unless result.n == 1
+		# Result in case the insert failed
+		retStatus = {
+			status: "error", 
+			error: "Unable to process reservation request right now. Please try again later", 
+			errorType: "local"
+		}
+		return retStatus.to_json unless insertResult.n == 1
 	end
 	
-	# Get CC Data
-	ccData = data["cc"]
-	# Put a try catch
-	begin
-		# Call Payment System Ruby API
-	    epay = UsaEpay.new(serverConfig.usaEpayKey, serverConfig.usaEpayPin)
-		puts "Initialized epay interface"
-		paymentResult = epay.executeTransaction(ccData)
-		puts "[MLC-log]>>>>>>>>>>>>>>>> SOAP Transaction Response <<<<<<<<<<<<<<<<<"
-		p paymentResult.inspect
-	rescue Exception => e  
-		puts e.message  
-		puts e.backtrace.inspect
-		p "ERROR: Call to UsaEpay SOAP system failed, please look into it."
+	p reservation.inspect
+	unless reservation['reservation_only']
+		# Put a try catch
+		begin
+			puts "Reservation with Credit Card payment"
+			# Call Payment System Ruby API
+		    epay = UsaEpay.new(serverConfig.usaEpayKey, serverConfig.usaEpayPin)
+			puts "Initialized epay interface"
+			paymentResult = epay.executeTransaction(ccData)
+			puts "[MLC-log]>>>>>>>>>>>>>>>> SOAP Transaction Response <<<<<<<<<<<<<<<<<"
+			p paymentResult.inspect
+		rescue Exception => e
+			puts e.message  
+			puts e.backtrace.inspect
+			p "ERROR: Call to UsaEpay SOAP system failed, please look into it."
+			return {
+				status: 'error',
+				resultCode: 'E', 
+				error: "Unable to process payment, please try again later or call Miami Limo Coach", 
+				refNum: '0',
+				errorType: 'usaepay'
+			}.to_json
+		end
+		# End try catch
+	
+		# Get appropriate reservationID
+		reservationID = data["retry"].nil? ? insertResult.inserted_id : object_id(data["reservationID"])
+		
+		# Update status of reservation
+		status = case paymentResult.resultCode
+		when "A"
+			"payment-accepted"
+		when "D"
+			"payment-declined"
+		when "E"
+			"payment-failed"
+		end
+		
+		update = update_by_id(reservationID, {
+			:status => status,
+			:transaction => {
+				:status => paymentResult.result,
+				:amount => paymentResult.authAmount,
+				:cardHolder => data["cc"]["fullName"],
+				:cardNumber => data["cc"]["cardNumber"][data["cc"]["cardNumber"].length - 4, data["cc"]["cardNumber"].length],
+				:refNum => paymentResult.refNum,
+				:avsResult => paymentResult.avsResult,
+				:authorization => paymentResult.authCode,
+				:cvv2Result => paymentResult.cardCodeResult
+			}
+		})
+		
+		# Return the payment status
 		return {
-			status: 'error',
-			resultCode: 'E', 
-			error: "Unable to process payment, please try again later or call Miami Limo Coach", 
-			refNum: '0',
-			errorType: 'usaepay',
-			reservation: savedReservation
+			status: "ok",
+			resultCode: paymentResult.resultCode, 
+			error: paymentResult.error,
+			refNum: paymentResult.refNum,
+			reservation: document_by_id(reservationID)
+		}.to_json
+	else
+		puts "Reservation only"
+		return {
+			status: "ok",
+			resultCode: "A",
+			reservation: document_by_id(insertResult.inserted_id)
 		}.to_json
 	end
-	# End try catch
 	
-	# Get appropriate reservationID
-	reservationID = data["retry"].nil? ? result.inserted_id : object_id(data["reservationID"])
-	# Update status of reservation
-	status = case paymentResult.resultCode
-	when "A"
-		"payment-accepted"
-	when "D"
-		"payment-declined"
-	when "E"
-		"payment-failed"
-	end
-	
-	update = update_by_id(reservationID, {
-		:status => status,
-		:transaction => {
-			:status => paymentResult.result,
-			:amount => paymentResult.authAmount,
-			:cardHolder => data["cc"]["fullName"],
-			:cardNumber => data["cc"]["cardNumber"][data["cc"]["cardNumber"].length - 4, data["cc"]["cardNumber"].length],
-			:refNum => paymentResult.refNum,
-			:avsResult => paymentResult.avsResult,
-			:authorization => paymentResult.authCode,
-			:cvv2Result => paymentResult.cardCodeResult
-		}
-	})
-	
-	# Get saved reservation
-	savedReservation = db.find(:_id => reservationID).to_a.first
-	
-	# Return the payment status
-	{
-		status: "ok",
-		resultCode: paymentResult.resultCode, 
-		error: paymentResult.error,
-		refNum: paymentResult.refNum,
-		reservation: savedReservation
-	}.to_json
 end
 
 # Get Reservation in month range
@@ -130,7 +155,8 @@ end
 
 get '/reservations/:id' do
 	content_type :json
-	document_by_id params[:id]
+	document = document_by_id params[:id]
+	document.to_json
 end
 
 delete '/reservations/:id' do 
