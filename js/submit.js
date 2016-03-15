@@ -18,21 +18,18 @@ module.exports = {
             			var field = form_specs.sections[si].fields[fi];
             			var $errorInfo = $('#reservation-form-container ' + '#' + field.id + '-container .error-info');
                         
-            			if (field.required && field.validate) {
-                            var value = $('#reservation-form-container ' + '#' + field.id + '-container ' + '#' + field.id).val();
+                        var value = $('#reservation-form-container ' + '#' + field.id + '-container ' + '#' + field.id).val();
+                        reservationInfo[field.id] = value;
+            			
+                        if (field.required && field.validate) {
                             var isValid = validate[field.validate];
                             if (isValid(value)) {
                                 $errorInfo.hide();
-                                reservationInfo[field.id] = value;
-                                
                             }
                             else {
                                 isValidReservation = false;
                                 $errorInfo.show();
                             }
-                        }
-                        else {
-                            reservationInfo[field.id] = value;
                         }
             		}
             	}
@@ -99,6 +96,7 @@ module.exports = {
                         requestData.reservationID = window.reservationID;
                     }
                     
+                    console.log(requestData);
                     $.ajax('/reservation_with_cc', {
                         method: 'post',
                         data: JSON.stringify(requestData),
