@@ -31,6 +31,9 @@ module.exports = {
                                 $errorInfo.show();
                             }
                         }
+                        else {
+                            reservationInfo[field.id] = value;
+                        }
             		}
             	}
                 
