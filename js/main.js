@@ -44,7 +44,7 @@ $(document).ready(function() {
 		var formID = ctx.params.formID;
 		
 		// Second argument is debug flag
-		render.renderForm(formID, false);
+		render.renderForm(formID, true);
 	});
 	
 	page('/admin/calendar', function() {
