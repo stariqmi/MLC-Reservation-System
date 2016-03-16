@@ -74,6 +74,7 @@ module.exports = {
 		}
 		
 		$('.error-info').hide();
+		$('#error-indication').hide();
 		
 		// On submit form click
 		// Validate required fields

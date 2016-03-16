@@ -125,6 +125,9 @@ module.exports = {
                     });
                     
                 }
+                else {
+                    $("#error-indication").show();
+                }
             }
         },
         
