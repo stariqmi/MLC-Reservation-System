@@ -10,6 +10,7 @@ var cc_form_json = require('./cc_payment_form.json');
 module.exports = {
     reservationWithCC: function(form_specs) {
             return function() {
+                
                 var isValidReservation = true;
                 var reservationInfo = {};
                 
@@ -71,7 +72,7 @@ module.exports = {
                 }
                 
                 if (ccEmpty) {
-                    $('.error-info').hide();
+                    $('#payment-container .error-info').hide();
                     isValidCCInfo = true;
                     reservationInfo.reservation_only = true;
                 }
