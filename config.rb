@@ -1,6 +1,6 @@
 class ServerConfig
     
-    attr_reader :thinPort, :mongoUrl, :mongoDB, :env, :usaEpayKey, :usaEpayPin
+    attr_reader :thinPort, :mongoUrl, :mongoDB, :env, :usaEpayKey, :usaEpayPin, :mailgunApiKey
     
     # Initialize instance variables that define server configuration
     def initialize
@@ -28,5 +28,7 @@ class ServerConfig
         # @usaEpayKey = "_JYPW26imL8vZUFNU0wdnHqRlbBANZwK" # Development Key
         @usaEpayKey = "tqgAND730mEqFY22B7Tmf2mno7mvV7aR" # Production Key
         @usaEpayPin = "9999"
+    
+        @mailgunApiKey = "key-abf9a7a4aaf92accf218dc8749e8094c"
     end
 end

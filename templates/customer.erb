@@ -1,0 +1,21 @@
+<html>
+    <body>
+        <header>
+            <h2>Miami Limo Coach Reservation Confirmation</h2>
+        </header>
+        <section>
+            <header><h3>Your Reservation</h3></header>
+            <div>
+                <p><b>Date:</b> <%= @pickup_date %></p>
+                <p><b>Time:</b> <%= @pickup_time %></p>
+            </div>
+        </section>
+        <section>
+            <header><h3>Your Payment</h3></header>
+            <div>
+                <p><b>Your payment was processed via UsaEpay Secure Payment system</b></p>
+                <p><b>Amount:</b> <%= @amount %></p>
+            </div>
+        </section>
+    </body>
+</html>

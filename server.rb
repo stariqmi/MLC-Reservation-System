@@ -8,6 +8,7 @@ require 'thin'
 require "./config"
 require "./usaepay"
 require "./dbutils"
+require "./email"
 
 serverConfig = ServerConfig.new
 
@@ -16,8 +17,11 @@ configure do
 	
 	# MongoDB setup
 	db = Mongo::Client.new(serverConfig.mongoUrl + '/' + serverConfig.mongoDB)
-    	set :mongo_db, db[:reservations]
+    mailgun = EmailService.new serverConfig.mailgunApiKey
 	
+	set :mongo_db, db[:reservations]
+	set :email, mailgun
+
 	# SSL Thin Setup
 	set :environment, serverConfig.env
 	set :bind, '0.0.0.0'
@@ -123,6 +127,10 @@ post '/reservation_with_cc' do
 			}
 		})
 		
+		if status == "payment-accepted"
+			settings.email.send reservation, paymentResult
+		end
+		
 		# Return the payment status
 		return {
 			status: "ok",
@@ -133,6 +141,7 @@ post '/reservation_with_cc' do
 		}.to_json
 	else
 		puts "Reservation only"
+		settings.email.send reservation, nil
 		return {
 			status: "ok",
 			resultCode: "A",
