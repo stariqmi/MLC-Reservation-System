@@ -120,6 +120,7 @@ module.exports = {
                                 window.reservationID = data.reservation._id.$oid;
                                 $(".transaction.error-info").html(data.error);
                                 $(".transaction.error-info").show();
+                                $("#error-indication").show();
                             }
                         }
                     });
