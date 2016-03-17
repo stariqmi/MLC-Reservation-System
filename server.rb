@@ -113,22 +113,24 @@ post '/reservation_with_cc' do
 			"payment-failed"
 		end
 		
+		transactionInfo = {
+			:status => paymentResult.result,
+			:amount => paymentResult.authAmount,
+			:cardHolder => data["cc"]["fullName"],
+			:cardNumber => data["cc"]["cardNumber"][data["cc"]["cardNumber"].length - 4, data["cc"]["cardNumber"].length],
+			:refNum => paymentResult.refNum,
+			:avsResult => paymentResult.avsResult,
+			:authorization => paymentResult.authCode,
+			:cvv2Result => paymentResult.cardCodeResult
+		}
+		
 		update = update_by_id(reservationID, {
 			:status => status,
-			:transaction => {
-				:status => paymentResult.result,
-				:amount => paymentResult.authAmount,
-				:cardHolder => data["cc"]["fullName"],
-				:cardNumber => data["cc"]["cardNumber"][data["cc"]["cardNumber"].length - 4, data["cc"]["cardNumber"].length],
-				:refNum => paymentResult.refNum,
-				:avsResult => paymentResult.avsResult,
-				:authorization => paymentResult.authCode,
-				:cvv2Result => paymentResult.cardCodeResult
-			}
+			:transaction => transactionInfo
 		})
 		
 		if status == "payment-accepted"
-			settings.email.send reservation, paymentResult
+			settings.email.send reservation, transactionInfo
 		end
 		
 		# Return the payment status

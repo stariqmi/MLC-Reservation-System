@@ -1,5 +1,6 @@
 require 'erb'
 require 'rest-client'
+require 'json'
 
 class EmailService
     
@@ -9,9 +10,13 @@ class EmailService
     
     def send reservation, transaction
         
-        @pickup_date = reservation["pickup_date"]
-        @pickup_time = reservation["pickup_time"]
-        @amount = transaction.nil? ? 0 : transaction.amount
+        @reservation = reservation
+        @transaction = transaction
+        
+        type = reservation["form_type"]
+        file = File.new("./js/" + type + ".json")
+        @json = JSON.parse(file.read)
+        
         @html = ""
         
         File.open('./templates/customer.erb', 'rb') do |file|

@@ -6,16 +6,24 @@
         <section>
             <header><h3>Your Reservation</h3></header>
             <div>
-                <p><b>Date:</b> <%= @pickup_date %></p>
-                <p><b>Time:</b> <%= @pickup_time %></p>
+                <% @json["sections"].each do |section| %>
+                    <% section["fields"].each do |field| %>
+                        <b><%= field["label"] %>:</b> <%= @reservation[field["id"]] %><br/>
+                    <% end %>
+                <% end %>
             </div>
         </section>
+        <% if !@transaction.nil? %>
         <section>
             <header><h3>Your Payment</h3></header>
             <div>
-                <p><b>Your payment was processed via UsaEpay Secure Payment system</b></p>
-                <p><b>Amount:</b> <%= @amount %></p>
+                <b style="color:green">Your payment was processed via UsaEpay Secure Payment system</b><br/>
+                <b>Status:</b> <%= @transaction[:status] %><br/>
+                <b>Amount:</b> <%= @transaction[:amount] %><br/>
+                <b>Card Holder:</b> <%= @transaction[:cardHolder] %><br/>
+                <b>Card Number:</b> XXXXXXXXXXXX<%= @transaction[:cardNumber] %><br/>
             </div>
         </section>
+        <% end %>
     </body>
 </html>

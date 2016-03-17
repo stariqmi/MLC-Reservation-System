@@ -222,14 +222,14 @@
 					<div class="col-md-12">						
 						<table class="table table-bordered table-condensed">
 							<tbody>
-								<tr><td><b>Reference #</b></td><td>{{refNum}}</td></tr>
-								<tr class="warning"><td><b>Status</b></td><td>{{status}}</td></tr>
-								<tr><td><b>Card Holder</b></td><td>{{cardHolder}}</td></tr>
-								<tr><td><b>Card Number</b></td><td>XXXXXXXXXXXX{{cardNumber}}</td></tr>
-								<tr><td><b>Amount</b></td><td>{{amount}}</td></tr>
-								<tr><td><b>Authorization</b></td><td>{{authorization}}</td></tr>
-								<tr><td><b>AVS Result</b></td><td>{{avsResult}}</td></tr>
-								<tr><td><b>CVV2 Result</b></td><td>{{cvv2Result}}</td></tr>
+								<tr><td class="col-md-4"><b>Reference #</b></td><td class="col-md-8">{{refNum}}</td></tr>
+								<tr class="warning"><td class="col-md-4"><b>Status</b></td><td class="col-md-8">{{status}}</td></tr>
+								<tr><td class="col-md-4"><b>Card Holder</b></td><td class="col-md-8">{{cardHolder}}</td></tr>
+								<tr><td class="col-md-4"><b>Card Number</b></td><td class="col-md-8">XXXXXXXXXXXX{{cardNumber}}</td></tr>
+								<tr><td class="col-md-4"><b>Amount</b></td><td class="col-md-8">{{amount}}</td></tr>
+								<tr><td class="col-md-4"><b>Authorization</b></td><td class="col-md-8">{{authorization}}</td></tr>
+								<tr><td class="col-md-4"><b>AVS Result</b></td><td class="col-md-8">{{avsResult}}</td></tr>
+								<tr><td class="col-md-4"><b>CVV2 Result</b></td><td class="col-md-8">{{cvv2Result}}</td></tr>
 							</tbody>
 						</table>
 					</div>
@@ -252,7 +252,10 @@
 			
 			<section>
 				<div class="row">
-					<div class="col-md-12"><h3>Reservation Details</h3></div>
+					<div class="col-md-12">
+						<h4 style="color: green">An email with the following details has been sent to you.</h4>
+						<h3>Reservation Details</h3>
+					</div>
 				</div>
 				
 				<div class="row reservation-display-section">
@@ -261,8 +264,8 @@
 							{{#each sections}}
 								{{#each fields}}
 									<tr class="reservation-field-info-container">
-										<td><b>{{label}}</b></td>
-										<td><span id="{{id}}">{{value}}</span></td>
+										<td class="col-md-4"><b>{{label}}</b></td>
+										<td class="col-md-8"><span id="{{id}}">{{value}}</span></td>
 									</tr>
 								{{/each}}
 							{{/each}}
