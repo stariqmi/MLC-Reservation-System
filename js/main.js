@@ -47,7 +47,7 @@ $(document).ready(function() {
 		render.renderForm(formID, false);
 	});
 	
-	page('/admin/calendar', function() {
+	page('/admin/schedule', function() {
 		$contentContainer.empty();
 		render.renderCalendar();
 	});
