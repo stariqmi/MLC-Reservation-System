@@ -124,7 +124,7 @@ post '/reservation_with_cc' do
 			:cvv2Result => paymentResult.cardCodeResult
 		}
 		
-		update = update_by_id(reservationID, { |variable|  
+		update = update_by_id(reservationID, {
 			:status => status,
 			:transaction => transactionInfo
 		})
