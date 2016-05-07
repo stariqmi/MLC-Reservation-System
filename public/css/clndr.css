@@ -83,7 +83,8 @@
     color: #000;
     float: left;
     margin-right: 5px;
-    border-radius: 5px;
+    margin-bottom: 5px;
+    border: 2px solid black;
     padding: 10px;
 }
 
