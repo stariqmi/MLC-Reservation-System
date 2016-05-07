@@ -52,6 +52,11 @@ $(document).ready(function() {
 		render.renderCalendar();
 	});
 	
+	page('/admin/reservations/:year/:month/:day', function(ctx) {
+		$contentContainer.empty();
+		render.renderReservationsByDate(ctx.params.year, ctx.params.month, ctx.params.day);
+	});
+	
 	page('/admin/reservations/:id', function(ctx) {
 		$contentContainer.empty();
 		

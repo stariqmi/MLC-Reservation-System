@@ -168,6 +168,9 @@
 				{{#each days}}
 					<div class="day {{classes}}">
 						<div class="day-number">{{day}}</div>
+						<div class="go-to-day">
+							<a href="/admin/reservations/{{year}}/{{month}}/{{day}}">View All</a>
+						</div>
 						<div class="day-events">
 						{{#each events}}
 							<!-- Reservation status ({{status}}) adds a class that points to a css class in clndr.css -->
@@ -277,6 +280,24 @@
 			{{#if admin}}
 				{{>transactionInfo transaction}}
 			{{/if}}
+			<footer></footer>
+		</script>
+		
+		<script id="reservation-by-date-display-template" type="type/x-handlebars-template">
+			<header>
+				<h3 class="reservations-by-date">{{date}}</h3>
+			</header>
+			{{#each reservations}}
+				<div class="reservations-by-date reservation-element">
+					<p><b>Coach:</b> {{coach}}</p>
+					<p><b>Company:</b> {{company}}</p>
+					<p><b>Email:</b> {{email}}</p>
+					<p><b>First Name:</b> {{fname}}</p>
+					<p><b>Last Name:</b> {{lname}}</p>
+					<p><b>Phone:</b> {{phone}}</p>
+					<p><b>Pickup Time:</b> {{pickup_time}}</p>
+				</div>
+			{{/each}}
 			<footer></footer>
 		</script>
 		

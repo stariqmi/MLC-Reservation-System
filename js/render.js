@@ -97,6 +97,20 @@ module.exports = {
 		});
 	},
 	
+	renderReservationsByDate: function(year, month, day) {
+		$('#loading').show();
+		$.ajax('/reservations_by_date/' + year + '/' + month + '/' + day, {
+			method: 'GET',
+			success: function(data, status) {
+				$('#loading').hide();
+				console.log(data);
+				var source = $('#reservation-by-date-display-template').html();
+				var template = Handlebars.compile(source);
+				$contentContainer.append(template({reservations: data, date: month + '-' + day + '-' + year}));
+			}
+		});
+	},
+	
 	renderReservation: function(reservationID, ADMIN) {
 		
 		$('#loading').show();

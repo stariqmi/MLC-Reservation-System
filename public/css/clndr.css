@@ -65,6 +65,28 @@
     cursor: pointer;
 }
 
+.go-to-day {
+    width: 100%;
+    text-align: center;
+    background-color: #000000;
+    margin-bottom: 1px;
+}
+
+.go-to-day a {
+    color: white;
+}
+
+/*------- Reservations By Date -------*/
+.reservation-element {
+    width: 300px;
+    background-color: #d9d9d9;
+    color: #000;
+    float: left;
+    margin-right: 5px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
 /*-------Event colors--------*/
 .reservation-only {
     background-color: #0099ff;

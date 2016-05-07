@@ -17,6 +17,12 @@ module.exports = function(reservations) {
     Handlebars.registerHelper('makeWeeks', function(days) {
         var clonedDays = clone(days);
         
+        for (var di in clonedDays) {
+            var day = clonedDays[di];
+            day.year = day.date.get('year');
+            day.month = day.date.get('month') + 1;
+        }
+        
         var weeks = [];
         while(clonedDays.length) {
             weeks.push(clonedDays.splice(0, 7));
@@ -52,7 +58,6 @@ module.exports = function(reservations) {
     
     var onMonthChange = function(m) {
         
-        
         var instance = this;    // clndr instance
         var month = m.month() + 1;
         
@@ -73,7 +78,6 @@ module.exports = function(reservations) {
                 method: 'GET',
                 success: function(data, status) {
                     
-                    
                     for (var di in data) {
                         var d = data[di];
                         var date = moment(d.pickup_date, 'MM/DD/YYYY');
@@ -90,6 +94,7 @@ module.exports = function(reservations) {
     
     $('#calendar').clndr({
         render: function(data) {
+            console.log(data);
             return clndrTemplate(data);
         },
         events: reservations,

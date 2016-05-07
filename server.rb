@@ -124,7 +124,7 @@ post '/reservation_with_cc' do
 			:cvv2Result => paymentResult.cardCodeResult
 		}
 		
-		update = update_by_id(reservationID, {
+		update = update_by_id(reservationID, { |variable|  
 			:status => status,
 			:transaction => transactionInfo
 		})
@@ -158,6 +158,13 @@ get '/reservations/:start_month/:end_month' do
     content_type :json
     # Check for cookie before sending data
     get_reservations_by_month(params[:start_month].to_i, params[:end_month].to_i)
+end
+
+# Get Reservations for a date
+get '/reservations_by_date/:year/:month/:day' do
+    content_type :json
+    # Check for cookie before sending data
+    get_reservations_by_date(params[:year].to_i, params[:month].to_i, params[:day].to_i)
 end
 
 get '/reservations' do 

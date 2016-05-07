@@ -41,6 +41,17 @@ module DbUtils
       (documents || {}).to_json
   end
   
+  def get_reservations_by_date(year, month, day)
+  	documents = settings.mongo_db.find({
+		:status => {:$ne => "deleted"},
+		:pickup_year => year,
+		:pickup_month => month,
+		:pickup_day => day
+	}).to_a
+	
+	(documents || {}).to_json
+  end
+  
   def get_all_reservations
   	documents = settings.mongo_db.find()
 	(documents || {}).to_json
