@@ -104,8 +104,33 @@
 .payment-failed {
     background-color: #ff6600;
 }
+.pre-payment {
+    background-color: #ff0000;
+}
 /*-----------------------------*/
 
+/*-------Status Text color-----*/
+.reservation-only-text {
+    color: #0099ff;
+}
+
+.payment-accepted-text {
+    color: #29a329;
+}
+
+.payment-declined-text {
+    color: black;
+    background-color: #e6e600;
+}
+
+.payment-failed-text {
+    color: #ff6600;
+}
+
+.pre-payment-text {
+    color: #ff0000;
+}
+/*---------------------------*/
 
 .not-paid {
     background-color: #ff0000;  
