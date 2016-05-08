@@ -98,14 +98,14 @@
 }
 
 .payment-declined {
-    background-color: #e6e600;
+    background-color: #ff0000;
 }
 
 .payment-failed {
     background-color: #ff6600;
 }
 .pre-payment {
-    background-color: #ff0000;
+    background-color: #e6e600;
 }
 /*-----------------------------*/
 
@@ -119,8 +119,7 @@
 }
 
 .payment-declined-text {
-    color: black;
-    background-color: #e6e600;
+    color: #ff0000;
 }
 
 .payment-failed-text {
@@ -128,7 +127,8 @@
 }
 
 .pre-payment-text {
-    color: #ff0000;
+    color: black;
+    background-color: #e6e600;
 }
 /*---------------------------*/
 
