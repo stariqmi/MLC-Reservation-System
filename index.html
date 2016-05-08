@@ -247,7 +247,7 @@
 				<div class="row" id="reservation-buttons-container">
 					<div class="col-md-12">
 						<button class="delete-btn btn btn-primary">Delete Reservation</button>
-						<a href="/admin/calendar" class="btn btn-primary">View Calendar</a>
+						<a href="/admin/schedule" class="btn btn-primary">View Calendar</a>
 					</div>
 				</div>
 			{{/if}}
@@ -291,11 +291,23 @@
 				<div class="reservations-by-date reservation-element">
 					<p><b>Coach:</b> {{coach}}</p>
 					<p><b>Company:</b> {{company}}</p>
+					<p><b>Dropoff Time:</b> {{dropoff_time}}</p>
 					<p><b>Email:</b> {{email}}</p>
 					<p><b>First Name:</b> {{fname}}</p>
 					<p><b>Last Name:</b> {{lname}}</p>
 					<p><b>Phone:</b> {{phone}}</p>
 					<p><b>Pickup Time:</b> {{pickup_time}}</p>
+					<p><b>Hours Needed:</b> {{hours_needed}}</p>
+					<p><b>Occassion Type:</b> {{occassion_type}}</p>
+					<p><b>Passenger Count:</b> {{passenger_count}}</p>
+					<p><b>Pickup Address:</b> {{pickup_addr}}</p>
+					<p><b>Pickup City:</b> {{pickup_city}}</p>
+					<p><b>Pickup Zip:</b> {{pickup_zip}}</p>
+					<p><b>Pickup Date:</b> {{pickup_date}}</p>
+					<p><b>Pickup Time:</b> {{pickup_time}}</p>
+					<p><b>Status:</b> {{status}}</p>
+					<p><b>Total Price:</b> {{total_price}}</p>
+					<p><b>Special Instructions:</b> {{special_instructions}}</p>
 				</div>
 			{{/each}}
 			<footer></footer>
