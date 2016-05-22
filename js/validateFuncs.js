@@ -12,17 +12,17 @@ module.exports = {
     },
     
     isValidTime: function(time) {
-        var re = /[0-9]{1,2}[:][0-9]{1,2}\s((AM)|(PM))/;
+        var re = /^[0-9]{1,2}[:][0-9]{1,2}\s((AM)|(PM))/;
         return re.test(time); // Do a regex test hh:mm AM|PM
     },
     
     isValidExpiry: function(expiry) {
-        var re = /[0-9]{4}/;
+        var re = /^[0-9]{4}/;
         return re.test(expiry);
     },
     
     isValidAmount: function(amount) {
-        var re = /[0-9]+/;
+        var re = /^[0-9]+/;
         return re.test(amount);
     }
 }

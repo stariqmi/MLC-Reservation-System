@@ -215,7 +215,7 @@ module.exports = {
 						method: 'DELETE',
 						success: function(data, status) {
 							$('#loading').hide();
-							if (data.status === 'ok') page('/admin/calendar');
+							if (data.status === 'ok') page('/admin/schedule');
 							else alert('Can not delete, please contact your developer');
 						}
 					});
