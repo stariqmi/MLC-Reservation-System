@@ -97,14 +97,12 @@ module.exports = {
                         requestData.reservationID = window.reservationID;
                     }
                     
-                    console.log(requestData);
                     $.ajax('/reservation_with_cc', {
                         method: 'post',
                         data: JSON.stringify(requestData),
                         dataType: 'json',
                         success: function(data, status) {
                             
-                            console.log(data);
                             $('#loading').hide();
                             
                             if (data.status === 'ok' && data.resultCode === 'A') {

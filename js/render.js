@@ -103,10 +103,48 @@ module.exports = {
 			method: 'GET',
 			success: function(data, status) {
 				$('#loading').hide();
-				console.log(data);
-				var source = $('#reservation-by-date-display-template').html();
+				var source = $('#reservations-by-date-with-partial-template').html();
 				var template = Handlebars.compile(source);
-				$contentContainer.append(template({reservations: data, date: month + '-' + day + '-' + year}));
+				
+				var reservations = [];
+				for (var d in data) {
+					var reservation = data[d];
+					// Get the spec to render
+					var spec;
+					switch (reservation.form_type) {
+						case 'per_person':
+							spec = clone(per_person_json);
+							break;
+						case 'total_price':
+							spec = clone(total_price_json);
+							break;
+						case 'hourly_rate':
+							spec = clone(hourly_rate_json);
+							break;
+						default:
+							throw new Error(
+								'Undefined form_type for reservation. Cannot determine how to display',
+								'render.js',
+								120
+							)
+					}
+					
+					if (spec.admin) {
+						spec.transaction = reservation.transaction || {};
+					}
+					
+					for (var si in spec.sections) {
+						for (var fi in spec.sections[si].fields) {
+							var field = spec.sections[si].fields[fi];
+							
+							// Data is saved in DB with spec ids
+							spec.sections[si].fields[fi].value = reservation[field.id];
+						}
+					}
+					reservations.push({reservation: spec});
+				}
+				
+				$contentContainer.append(template({admin: true, reservations: reservations, date: month + '-' + day + '-' + year}));
 			}
 		});
 	},
@@ -143,7 +181,6 @@ module.exports = {
 				spec.admin = ADMIN;
 				
 				if (spec.admin) {
-					console.log(data);
 					spec.transaction = data.transaction || {};
 				}
 				

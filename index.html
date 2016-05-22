@@ -240,9 +240,49 @@
 			</section>
 		</script>
 		
+		<!-- Reservation partial -->
+		<script id="reservation-display-partial-template" type="type/x-handlebars-template">
+			<section>
+				<div class="row reservation-display-section">
+					<div class="col-md-12">
+						<table class="table table-bordered table-condensed">
+							{{#each sections}}
+								{{#each fields}}
+									<tr class="reservation-field-info-container">
+										<td class="col-md-4"><b>{{label}}</b></td>
+										<td class="col-md-8"><span id="{{id}}">{{value}}</span></td>
+									</tr>
+								{{/each}}
+							{{/each}}
+						</table>
+					</div>
+				</div>
+			</section>	
+		</script>
+		
+		<script id="reservations-by-date-with-partial-template" type="type/x-handlebars-template">
+			<div class="reservations-by-date-container">
+				<header>
+					<h3 class="reservations-by-date">{{date}}</h3>
+					{{#if admin}}
+						<div class="row" id="reservation-buttons-container">
+							<div class="col-md-12">
+								<a href="/admin/schedule" class="btn btn-primary">View Calendar</a>
+							</div>
+						</div>
+					{{/if}}
+				</header>
+				<div class="reservations-container">
+					{{#each reservations}}
+						{{>reservationDisplay reservation}}
+					{{/each}}
+				</div>
+			</div>
+		</script>
+		
 		<!-- Reservation View Template -->
 		<script id="reservation-display-template" type="type/x-handlebars-template">
-			<header>
+			<header class="reservation-display-header">
 			{{#if admin}}
 				<div class="row" id="reservation-buttons-container">
 					<div class="col-md-12">
@@ -254,12 +294,14 @@
 			</header>
 			
 			<section>
+				{{#unless admin}}
 				<div class="row">
 					<div class="col-md-12">
 						<h4 style="color: green">An email with the following details has been sent to you.</h4>
 						<h3>Reservation Details</h3>
 					</div>
 				</div>
+				{{/unless}}
 				
 				<div class="row reservation-display-section">
 					<div class="col-md-12">

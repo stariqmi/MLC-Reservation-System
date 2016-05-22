@@ -94,7 +94,6 @@ module.exports = function(reservations) {
     
     $('#calendar').clndr({
         render: function(data) {
-            console.log(data);
             return clndrTemplate(data);
         },
         events: reservations,

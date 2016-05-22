@@ -15,13 +15,11 @@ $(document).ready(function() {
 
 	// Render Home page
 	page('/', function() {
-		console.log('hello2');
 		var a = document.createElement('a');
 		a.href = "/forms/per_person";
 		
 		var $a = $(a);
 		$a.text("Click me!");
-		console.log($a);
 		
 		$contentContainer.append(a);
 	});
@@ -54,6 +52,10 @@ $(document).ready(function() {
 	
 	page('/admin/reservations/:year/:month/:day', function(ctx) {
 		$contentContainer.empty();
+		
+		var partial = $('#reservation-display-partial-template').html();
+		Handlebars.registerPartial('reservationDisplay', partial);
+		
 		render.renderReservationsByDate(ctx.params.year, ctx.params.month, ctx.params.day);
 	});
 	

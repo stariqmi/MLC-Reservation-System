@@ -1,3 +1,15 @@
 #reservation-buttons-container {
     /*margin-bottom: 10px;*/
 }
+
+.reservation-display-header {
+    margin-bottom: 10px;
+}
+
+.reservations-by-date-container table {
+    border: 2px solid black;
+}
+
+.reservations-by-date-container .reservations-container {
+    margin-top: 10px;
+}
