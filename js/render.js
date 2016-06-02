@@ -161,13 +161,13 @@ module.exports = {
 				var spec;
 				switch (data.form_type) {
 					case 'per_person':
-						spec = per_person_json
+						spec = clone(per_person_json)
 						break;
 					case 'total_price':
-						spec = total_price_json
+						spec = clone(total_price_json)
 						break;
 					case 'hourly_rate':
-						spec = hourly_rate_json
+						spec = clone(hourly_rate_json)
 						break;
 					default:
 						throw new Error(
@@ -193,32 +193,53 @@ module.exports = {
 					}
 				}
 				
-				var source = $('#reservation-display-template').html();
-				var template = Handlebars.compile(source);
-				$contentContainer.append(template(spec));
-				
-				// After Render
-				for (var si in spec.sections) {
-					for (var fi in spec.sections[si].fields) {
-						var field = spec.sections[si].fields[fi];
+				// Add employees
+				$.ajax('/employees', {
+					method: 'GET',
+					success: function(data, status) {
+					
+						spec.employees = data;
+							
+						var source = $('#reservation-display-template').html();
+						var template = Handlebars.compile(source);
+						$contentContainer.append(template(spec));
 						
-						$field = $('span#' + field.id);
-						if (field.displayAfterRender) {
-							displayAfterRender[field.displayAfterRender]($field, field.value);
+						// After Render
+						for (var si in spec.sections) {
+							for (var fi in spec.sections[si].fields) {
+								var field = spec.sections[si].fields[fi];
+								
+								$field = $('span#' + field.id);
+								if (field.displayAfterRender) {
+									displayAfterRender[field.displayAfterRender]($field, field.value);
+								}
+							}
 						}
+						
+						$('.email-btn').on('click', function(e) {
+							e.preventDefault();
+							$('#loading').show();
+							var email = $('.email-form select').val();
+							$.ajax('/employees/email_reservation?reservation_id=' + reservationID + '&to=' + email,  {
+								method: 'POST',
+								success: function(data, status) {
+									$('#loading').hide();
+								}
+							})
+						})
+						
+						$('.delete-btn').on('click', function() {
+							$('#loading').show();
+							$.ajax('/reservations/' + reservationID, {
+								method: 'DELETE',
+								success: function(data, status) {
+									$('#loading').hide();
+									if (data.status === 'ok') page('/admin/schedule');
+									else alert('Can not delete, please contact your developer');
+								}
+							});
+						});
 					}
-				}
-				
-				$('.delete-btn').on('click', function() {
-					$('#loading').show();
-					$.ajax('/reservations/' + reservationID, {
-						method: 'DELETE',
-						success: function(data, status) {
-							$('#loading').hide();
-							if (data.status === 'ok') page('/admin/schedule');
-							else alert('Can not delete, please contact your developer');
-						}
-					});
 				});
 			}
 		});

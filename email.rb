@@ -8,20 +8,18 @@ class EmailService
         @apiKey = apiKey
     end
     
-    def send reservation, transaction
+    def send(to_who, reservation)
         
         @reservation = reservation
-        @transaction = transaction
+        @transaction = reservation[:transaction]
         
-        type = reservation["form_type"]
-        file = File.new("./js/" + type + ".json")
+        file = File.new("./js/" + reservation[:form_type] + ".json")
         @json = JSON.parse(file.read)
+        html = ''
         
-        @html = ""
-        
-        File.open('./templates/customer.erb', 'rb') do |file|
+        File.open('./templates/reservation.erb', 'rb') do |file|
             template = file.read
-            @html = ERB.new(template).result(binding)
+            html = ERB.new(template).result(binding)
         end
         
         # MailGun Api URL
@@ -29,10 +27,9 @@ class EmailService
         
         RestClient.post url, {
             :from => "Miami Limo Coach <mailgun@miamilimocoachreservations.com>",
-            :to => reservation["email"] + ", info@miamilimocoach.com",
-            :subject => "Miami Limo Coach Reservation",
-            :text => "Testing some Mailgun awesomness!",
-            :html => @html
+            :to => to_who == "customerAndOleg" ? reservation["email"] + ", info@miamilimocoach.com" : to_who,
+            :subject => "Miami Limo Coach Reservation (#{reservation[:status]})",
+            :html => html
         }
     end
     

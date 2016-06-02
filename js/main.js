@@ -66,6 +66,9 @@ $(document).ready(function() {
 		var partial = $('#transaction-info').html();
 		Handlebars.registerPartial('transactionInfo', partial);
 		
+		partial = $('#employee-email').html();
+		Handlebars.registerPartial('employeeEmail', partial);
+		
 		// Second parameter is for admin flag
 		render.renderReservation(ctx.params.id, true);
 	});

@@ -1,10 +1,10 @@
 <html>
     <body>
         <header>
-            <h2>Miami Limo Coach Reservation Confirmation</h2>
+            <h2>Miami Limo Coach Reservation</h2>
         </header>
         <section>
-            <header><h3>Your Reservation</h3></header>
+            <header><h3>Reservation</h3></header>
             <div>
                 <% @json["sections"].each do |section| %>
                     <% section["fields"].each do |field| %>
@@ -15,9 +15,9 @@
         </section>
         <% if !@transaction.nil? %>
         <section>
-            <header><h3>Your Payment</h3></header>
+            <header><h3>Payment</h3></header>
             <div>
-                <b style="color:green">Your payment was processed via UsaEpay Secure Payment system</b><br/>
+                <b style="color:green">Payment was processed via UsaEpay Secure Payment system</b><br/>
                 <b>Status:</b> <%= @transaction[:status] %><br/>
                 <b>Amount:</b> <%= @transaction[:amount] %><br/>
                 <b>Card Holder:</b> <%= @transaction[:cardHolder] %><br/>

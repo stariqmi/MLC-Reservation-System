@@ -29,8 +29,6 @@ class UsaEpay
     
     # @params hash transaction
     def executeTransaction(transaction)
-        puts "[MLC-log]>>>>>>>>>>>>>>>> Incoming Transaction Request <<<<<<<<<<<<<<<<<"
-        p transaction.inspect
         reservationID = transaction["reservationID"]
         
         request=TransactionRequestObject.new
@@ -52,12 +50,8 @@ class UsaEpay
         creditcard.cardCode=transaction["cvv2"]
         request.creditCardData=creditcard
         
-        puts "[MLC-log]>>>>>>>>>>>>>>>> SOAP Transaction Request <<<<<<<<<<<<<<<<<"
-        p request.inspect
-        
         @client=UeSoapServerPortType.new
         response=@client.runTransaction(self.getToken ,request)
         response
     end
 end
-# token=getToken("YOUR_SOURCE KEY","1234")

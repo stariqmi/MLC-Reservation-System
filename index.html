@@ -17,6 +17,8 @@
 		<link rel="stylesheet" href="/css/fullcalendar.overwrite.css">
 		<link rel="stylesheet" href="/css/clndr.css">
 		
+		<!-- TODO: Import following templates from external files -->
+		
 		<!-- Input Text Template -->
 		<script id="text-datetime-input-template" type="text/x-handlebars-template">
 			<div class="{{type}}-input-container form-group" id="{{id}}-container">
@@ -286,7 +288,7 @@
 			{{#if admin}}
 				<div class="row" id="reservation-buttons-container">
 					<div class="col-md-12">
-						<button class="delete-btn btn btn-primary">Delete Reservation</button>
+						<button class="delete-btn btn btn-danger">Delete Reservation</button>
 						<a href="/admin/schedule" class="btn btn-primary">View Calendar</a>
 					</div>
 				</div>
@@ -321,8 +323,27 @@
 			
 			{{#if admin}}
 				{{>transactionInfo transaction}}
+				{{>employeeEmail employees}}
 			{{/if}}
 			<footer></footer>
+		</script>
+		
+		<!-- Select option for sending email to employee -->
+		<script id="employee-email" type="type/x-handlebars-template">
+			<div class="row">
+				<div class="col-sm-12">
+					<form class="form-inline email-form">
+						<div class="form-group">
+							<select class="form-control">
+								{{#each this}}
+									<option value="{{email}}">{{name}} - ({{type}})</option>
+								{{/each}}
+							</select>
+							<button class="email-btn btn btn-primary">Email</button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</script>
 		
 		<script id="reservation-by-date-display-template" type="type/x-handlebars-template">
