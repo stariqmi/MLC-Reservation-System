@@ -1,9 +1,8 @@
 # MLC-Reservation-System
 
-This reservation system is an attempt to learn the following technologies
 * Ruby/Sinatra
 * JavaScript/Browserify/Node/npm
-* Deployment via AWS including HTTPS
+* Deployment via AWS including HTTPS (EC2, Routte 53, Certificate Manager)
 * Integration of UsaEpay payment system
 
 ## AWS Server Access

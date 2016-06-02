@@ -9,6 +9,7 @@ require "./config"
 require "./usaepay"
 require "./dbutils"
 require "./email"
+require "./sms"
 
 serverConfig = ServerConfig.new
 
@@ -18,10 +19,12 @@ configure do
 	# MongoDB setup
 	db = Mongo::Client.new(serverConfig.mongoUrl + '/' + serverConfig.mongoDB)
     mailgun = EmailService.new serverConfig.mailgunApiKey
+	sms = SMS.new(serverConfig.twilioSmsSID, serverConfig.twilioAuthToken, serverConfig.twilioNumber)
 	
 	set :reservations, db[:reservations]
 	set :employees, db[:employees]
 	set :email, mailgun
+	set :sms, sms
 
 	# SSL Thin Setup
 	set :environment, serverConfig.env
@@ -149,6 +152,11 @@ post '/employees/email_reservation' do
 	
 	reservation = reservations_get_by_id params[:reservation_id]
 	settings.email.send(params[:to], reservation)
+end
+
+post '/employees/sms_reservation' do
+	content_type :json
+	settings.sms.send(params[:to], params[:reservation_id]).to_json
 end
 
 get '/employees' do

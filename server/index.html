@@ -269,7 +269,7 @@
 					{{#if admin}}
 						<div class="row" id="reservation-buttons-container">
 							<div class="col-md-12">
-								<a href="/admin/schedule" class="btn btn-primary">View Calendar</a>
+								<a href="/admin/clndr" class="btn btn-primary">View Calendar</a>
 							</div>
 						</div>
 					{{/if}}
@@ -289,7 +289,7 @@
 				<div class="row" id="reservation-buttons-container">
 					<div class="col-md-12">
 						<button class="delete-btn btn btn-danger">Delete Reservation</button>
-						<a href="/admin/schedule" class="btn btn-primary">View Calendar</a>
+						<a href="/admin/clndr" class="btn btn-primary">View Calendar</a>
 					</div>
 				</div>
 			{{/if}}
@@ -323,23 +323,23 @@
 			
 			{{#if admin}}
 				{{>transactionInfo transaction}}
-				{{>employeeEmail employees}}
+				{{>employeeNotify employees}}
 			{{/if}}
 			<footer></footer>
 		</script>
 		
 		<!-- Select option for sending email to employee -->
-		<script id="employee-email" type="type/x-handlebars-template">
+		<script id="employee-notify" type="type/x-handlebars-template">
 			<div class="row">
 				<div class="col-sm-12">
 					<form class="form-inline email-form">
 						<div class="form-group">
 							<select class="form-control">
 								{{#each this}}
-									<option value="{{email}}">{{name}} - ({{type}})</option>
+									<option value="{{email}}/{{phone}}">{{name}} - ({{type}})</option>
 								{{/each}}
 							</select>
-							<button class="email-btn btn btn-primary">Email</button>
+							<button class="notify-btn btn btn-primary">Notify Employee</button>
 						</div>
 					</form>
 				</div>

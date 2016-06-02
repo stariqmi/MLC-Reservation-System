@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify -d js/main.js -o public/js/bundle.js -v",
-    "build": "browserify -e js/main.js -o public/js/bundle.js"
+    "watch": "watchify -d js/main.js -o server/public/js/bundle.js -v",
+    "build": "browserify -e js/main.js -o server/public/js/bundle.js"
   },
   "keywords": [
     "oleg"
@@ -14,6 +14,7 @@
   "author": "Salman Tariq Mirza",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.4.0",
     "clndr": "^1.4.1",
     "clone": "^1.0.2",
     "handlebars": "^4.0.5",

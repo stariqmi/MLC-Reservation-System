@@ -13,7 +13,7 @@ class EmailService
         @reservation = reservation
         @transaction = reservation[:transaction]
         
-        file = File.new("./js/" + reservation[:form_type] + ".json")
+        file = File.new("../js/" + reservation[:form_type] + ".json")
         @json = JSON.parse(file.read)
         html = ''
         

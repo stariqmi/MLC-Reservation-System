@@ -5,6 +5,7 @@ var jqUI = require('jquery-ui');
 var moment = require('moment');
 var page = require('page');
 var clone = require('clone');
+var Promise = require('bluebird');
 
 // forms json
 var per_person_json = require('./per_person.json');
@@ -152,6 +153,10 @@ module.exports = {
 	renderReservation: function(reservationID, ADMIN) {
 		
 		$('#loading').show();
+		
+		// var reservationsPromise = new Promise(function(resolve, reject) {
+		// 	
+		// })
 		$.ajax('/reservations/' + reservationID, {
 			method: 'GET',
 			success: function(data, status) {
@@ -199,7 +204,7 @@ module.exports = {
 					success: function(data, status) {
 					
 						spec.employees = data;
-							
+						
 						var source = $('#reservation-display-template').html();
 						var template = Handlebars.compile(source);
 						$contentContainer.append(template(spec));
@@ -216,17 +221,39 @@ module.exports = {
 							}
 						}
 						
-						$('.email-btn').on('click', function(e) {
+						$('.notify-btn').on('click', function(e) {
 							e.preventDefault();
 							$('#loading').show();
-							var email = $('.email-form select').val();
-							$.ajax('/employees/email_reservation?reservation_id=' + reservationID + '&to=' + email,  {
-								method: 'POST',
-								success: function(data, status) {
-									$('#loading').hide();
-								}
+							var emailPromise = new Promise(function(resolve, reject) {
+								var data = $('.email-form select').val().split('/');
+								var email = data[0];
+								var number = data[1];
+								$.ajax('/employees/email_reservation?reservation_id=' + reservationID + '&to=' + email,  {
+									method: 'POST',
+									success: function(data, status) {
+										resolve(number);
+									}
+								})
 							})
-						})
+								.then(function(number) {
+									return new Promise(function(resolve, reject) {
+										$.ajax('/employees/sms_reservation?reservation_id=' + reservationID + '&to=' + number, {
+											method: 'POST',
+											success: function(data, status) {
+												if (data.error) reject();
+												resolve(data);
+											}
+										});
+									});
+								})
+								.then(function(data) {
+									$('#loading').hide();
+								})
+								.catch(function(err) {
+									console.log(err);
+								})
+								
+						});	
 						
 						$('.delete-btn').on('click', function() {
 							$('#loading').show();
@@ -234,7 +261,7 @@ module.exports = {
 								method: 'DELETE',
 								success: function(data, status) {
 									$('#loading').hide();
-									if (data.status === 'ok') page('/admin/schedule');
+									if (data.status === 'ok') page('/admin/clndr');
 									else alert('Can not delete, please contact your developer');
 								}
 							});

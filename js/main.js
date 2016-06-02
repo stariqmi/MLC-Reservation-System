@@ -45,7 +45,7 @@ $(document).ready(function() {
 		render.renderForm(formID, false);
 	});
 	
-	page('/admin/schedule', function() {
+	page('/admin/clndr', function() {
 		$contentContainer.empty();
 		render.renderCalendar();
 	});
@@ -66,8 +66,8 @@ $(document).ready(function() {
 		var partial = $('#transaction-info').html();
 		Handlebars.registerPartial('transactionInfo', partial);
 		
-		partial = $('#employee-email').html();
-		Handlebars.registerPartial('employeeEmail', partial);
+		partial = $('#employee-notify').html();
+		Handlebars.registerPartial('employeeNotify', partial);
 		
 		// Second parameter is for admin flag
 		render.renderReservation(ctx.params.id, true);
