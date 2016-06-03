@@ -22,6 +22,7 @@ var loadingUtils = require('./utils/loading.js');
 var templateUtils = require('./utils/templates.js');
 var ajaxUtils = require('./utils/ajax.js');
 var eventUtils = require('./utils/events.js');
+var specUtils = require('./utils/spec.js');
 
 var contentContainerClass = ".contentContainer";
 var $contentContainer = $(contentContainerClass);
@@ -32,24 +33,8 @@ module.exports = {
 	 */
 	renderForm: function(formType, DEBUG) {
 		
-		var formSpec;
-		
-		// Need to clone it so that the source spec doesnt get polluted
-		switch (formType) {
-			case 'pp':
-				formSpec = clone(per_person_json);
-				break;
-			case 'tp':
-				formSpec = clone(total_price_json);
-				break
-			case 'hr':
-				formSpec = clone(hourly_rate_json);
-				break;
-			default:
-				// formSpec = clone(per_person_json);
-				page('/404');
-				break
-		}
+		var formSpec = specUtils.get(formType);
+		if (!formSpec) page('/404');
 		
 		// Add the Credit Card form spec
 		formSpec.ccSpec = clone(cc_form_json);
@@ -106,57 +91,54 @@ module.exports = {
 		});
 	},
 	
+	/*
+		Render reservations on a specific date
+	 */
 	renderReservationsByDate: function(year, month, day) {
 		loadingUtils.show();
-		$.ajax('/reservations_by_date/' + year + '/' + month + '/' + day, {
-			method: 'GET',
-			success: function(data, status) {
-				loadingUtils.hide();
-				var template = templateUtils.fetch('reservation_by_date_display');
-				
-				var reservations = [];
-				for (var d in data) {
-					var reservation = data[d];
-					// Get the spec to render
-					var spec;
-					switch (reservation.form_type) {
-						case 'per_person':
-							spec = clone(per_person_json);
-							break;
-						case 'total_price':
-							spec = clone(total_price_json);
-							break;
-						case 'hourly_rate':
-							spec = clone(hourly_rate_json);
-							break;
-						default:
-							throw new Error(
-								'Undefined form_type for reservation. Cannot determine how to display',
-								'render.js',
-								120
-							)
-					}
-					
-					if (spec.admin) {
-						spec.transaction = reservation.transaction || {};
-					}
-					
-					for (var si in spec.sections) {
-						for (var fi in spec.sections[si].fields) {
-							var field = spec.sections[si].fields[fi];
-							
-							// Data is saved in DB with spec ids
-							spec.sections[si].fields[fi].value = reservation[field.id];
-						}
-					}
-					reservations.push({reservation: spec});
+		ajaxUtils.makeRequest('GET', '/reservations_by_date/' + year + '/' + month + '/' + day)
+		.then(function(data) {
+			loadingUtils.hide();
+			var template = templateUtils.fetch('reservation_by_date_display');
+			
+			var reservations = [];
+			for (var d in data) {
+				var reservation = data[d];
+				// Get the spec to render
+				var spec = specUtils.get(reservation.form_type) 
+				if (!spec) {
+					throw new Error(
+						'Undefined form_type for reservation. Cannot determine how to display',
+						'render.js'
+					);
 				}
 				
-				$contentContainer.append(template({admin: true, reservations: reservations, date: month + '-' + day + '-' + year}));
+				if (spec.admin) {
+					spec.transaction = reservation.transaction || {};
+				}
+				
+				for (var si in spec.sections) {
+					for (var fi in spec.sections[si].fields) {
+						var field = spec.sections[si].fields[fi];
+						
+						// Data is saved in DB with spec ids
+						spec.sections[si].fields[fi].value = reservation[field.id];
+					}
+				}
+				reservations.push({reservation: spec});
 			}
+			
+			$contentContainer.append(template({
+				admin: true, 
+				reservations: reservations,
+				 date: month + '-' + day + '-' + year
+			 }));
 		});
 	},
-	
+
+	/*
+		Render a specific reservation
+	 */
 	renderReservation: function(reservationID, ADMIN) {
 		
 		loadingUtils.show('Loading reservation ...');
@@ -167,26 +149,15 @@ module.exports = {
 				loadingUtils.hide();
 				
 				// Get the spec to render
-				var spec;
-				switch (data.form_type) {
-					case 'per_person':
-						spec = clone(per_person_json)
-						break;
-					case 'total_price':
-						spec = clone(total_price_json)
-						break;
-					case 'hourly_rate':
-						spec = clone(hourly_rate_json)
-						break;
-					default:
-						throw new Error(
-							'Undefined form_type for reservation. Cannot determine how to display',
-							'render.js',
-							120
-						)
+				var spec = specUtils.get(data.form_type);
+				if (!spec) {
+					throw new Error(
+						'Undefined form_type for reservation. Cannot determine how to display',
+						'render.js'
+					);
 				}
 				
-				// This enable the delete button
+				// This enables delete, back and notify features
 				spec.admin = ADMIN;
 				
 				if (spec.admin) {
@@ -202,67 +173,31 @@ module.exports = {
 					}
 				}
 				
-				// Add employees
-				$.ajax('/employees', {
-					method: 'GET',
-					success: function(data, status) {
+				// Fetch employees
+				ajaxUtils.makeRequest('GET', '/employees')
+				.then(function(data) {
+					spec.employees = data;
 					
-						spec.employees = data;
-						
-						templateUtils.render({
-							name: 'reservation_display',
-							data: spec
-						});
-						
-						// After Render
-						for (var si in spec.sections) {
-							for (var fi in spec.sections[si].fields) {
-								var field = spec.sections[si].fields[fi];
-								
-								$field = $('span#' + field.id);
-								if (field.displayAfterRender) {
-									displayAfterRender[field.displayAfterRender]($field, field.value);
-								}
+					templateUtils.render({
+						name: 'reservation_display',
+						data: spec
+					});
+					
+					// After Render
+					for (var si in spec.sections) {
+						for (var fi in spec.sections[si].fields) {
+							var field = spec.sections[si].fields[fi];
+							
+							$field = $('span#' + field.id);
+							if (field.displayAfterRender) {
+								displayAfterRender[field.displayAfterRender]($field, field.value);
 							}
 						}
-						
-						$('.notify-btn').on('click', function(e) {
-							e.preventDefault();
-							loadingUtils.show('Sending email ...');
-							var emailPromise = new Promise(function(resolve, reject) {
-								var data = $('.email-form select').val().split('/');
-								var email = data[0];
-								var number = data[1];
-								$.ajax('/employees/email_reservation?reservation_id=' + reservationID + '&to=' + email,  {
-									method: 'POST',
-									success: function(data, status) {
-										resolve(number);
-									}
-								})
-							})
-								.then(function(number) {
-									loadingUtils.show('Sending SMS ...');
-									return new Promise(function(resolve, reject) {
-										$.ajax('/employees/sms_reservation?reservation_id=' + reservationID + '&to=' + number, {
-											method: 'POST',
-											success: function(data, status) {
-												if (data.error) reject();
-												resolve(data);
-											}
-										});
-									});
-								})
-								.then(function(data) {
-									loadingUtils.hide();
-								})
-								.catch(function(err) {
-									console.log(err);
-								})
-								
-						});	
-						
-						$('.delete-btn').on('click', eventUtils.reservationDeleteBtnClick);
 					}
+					
+					$('.notify-btn').on('click', eventUtils.employeeNotifyBtnClick(reservationID));	
+					
+					$('.delete-btn').on('click', eventUtils.reservationDeleteBtnClick);
 				});
 			}
 		});

@@ -7,6 +7,7 @@ var clone = require('clone');
 // local modules and utils
 var loadingUtils = require('./utils/loading.js');
 var templateUtils = require('./utils/templates.js');
+var ajaxUtils = require('./utils/ajax.js');
 var status_json = require('./status.json');
 
 var contentContainerClass = ".contentContainer";
@@ -73,21 +74,18 @@ module.exports = function(reservations) {
             // visit month
             visitedMonths[month] = true;
             
-            $.ajax('/reservations/' + month + '/' + month, {
-                method: 'GET',
-                success: function(data, status) {
-                    
-                    for (var di in data) {
-                        var d = data[di];
-                        var date = moment(d.pickup_date, 'MM/DD/YYYY');
-                        d.moment = moment;
-                        d.date = date.toISOString();
-                    }
-                    
-                    instance.addEvents(data);
-                    $("#loading").hide();
+            ajaxUtils.makeRequest('GET', '/reservations/' + month + '/' + month)
+            .then(function(data) {
+                for (var di in data) {
+                    var d = data[di];
+                    var date = moment(d.pickup_date, 'MM/DD/YYYY');
+                    d.moment = moment;
+                    d.date = date.toISOString();
                 }
-            });
+                
+                instance.addEvents(data);
+                loadingUtils.hide();
+            })
         }
     }
 
