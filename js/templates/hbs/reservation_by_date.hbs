@@ -1,0 +1,17 @@
+<div class="reservations-by-date-container">
+    <header>
+        <h3 class="reservations-by-date">{{date}}</h3>
+        {{#if admin}}
+            <div class="row" id="reservation-buttons-container">
+                <div class="col-md-12">
+                    <a href="/admin/clndr" class="btn btn-primary">View Calendar</a>
+                </div>
+            </div>
+        {{/if}}
+    </header>
+    <div class="reservations-container">
+        {{#each reservations}}
+            {{>reservation_display reservation}}
+        {{/each}}
+    </div>
+</div>

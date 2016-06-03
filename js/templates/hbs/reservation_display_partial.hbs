@@ -1,0 +1,16 @@
+<section>
+    <div class="row reservation-display-section">
+        <div class="col-md-12">
+            <table class="table table-bordered table-condensed">
+                {{#each sections}}
+                    {{#each fields}}
+                        <tr class="reservation-field-info-container">
+                            <td class="col-md-4"><b>{{label}}</b></td>
+                            <td class="col-md-8"><span id="{{id}}">{{value}}</span></td>
+                        </tr>
+                    {{/each}}
+                {{/each}}
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,6 +1,5 @@
 // npm modules
 var $ = require('jquery');
-var Handlebars = require('handlebars');;
 var moment = require('moment');
 var clndr = require('clndr');
 var clone = require('clone');

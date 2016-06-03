@@ -1,6 +1,5 @@
 // npm modules
 var $ = require('jquery');
-var Handlebars = require('handlebars');
 var jqUI = require('jquery-ui');
 var moment = require('moment');
 var page = require('page');
@@ -22,6 +21,7 @@ var drawCalendar = require('./clndr.js');
 var loadingUtils = require('./utils/loading.js');
 var templateUtils = require('./utils/templates.js');
 var ajaxUtils = require('./utils/ajax.js');
+var eventUtils = require('./utils/events.js');
 
 var contentContainerClass = ".contentContainer";
 var $contentContainer = $(contentContainerClass);
@@ -112,8 +112,7 @@ module.exports = {
 			method: 'GET',
 			success: function(data, status) {
 				loadingUtils.hide();
-				var source = $('#reservations-by-date-with-partial-template').html();
-				var template = Handlebars.compile(source);
+				var template = templateUtils.fetch('reservation_by_date_display');
 				
 				var reservations = [];
 				for (var d in data) {
@@ -210,9 +209,10 @@ module.exports = {
 					
 						spec.employees = data;
 						
-						var source = $('#reservation-display-template').html();
-						var template = Handlebars.compile(source);
-						$contentContainer.append(template(spec));
+						templateUtils.render({
+							name: 'reservation_display',
+							data: spec
+						});
 						
 						// After Render
 						for (var si in spec.sections) {
@@ -261,17 +261,7 @@ module.exports = {
 								
 						});	
 						
-						$('.delete-btn').on('click', function() {
-							loadingUtils.show();
-							$.ajax('/reservations/' + reservationID, {
-								method: 'DELETE',
-								success: function(data, status) {
-									loadingUtils.hide();
-									if (data.status === 'ok') page('/admin/clndr');
-									else alert('Can not delete, please contact your developer');
-								}
-							});
-						});
+						$('.delete-btn').on('click', eventUtils.reservationDeleteBtnClick);
 					}
 				});
 			}

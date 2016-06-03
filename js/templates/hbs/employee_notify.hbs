@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-sm-12">
+        <form class="form-inline email-form">
+            <div class="form-group">
+                <select class="form-control">
+                    {{#each this}}
+                        <option value="{{email}}/{{phone}}">{{name}} - ({{type}})</option>
+                    {{/each}}
+                </select>
+                <button class="notify-btn btn btn-primary">Notify Employee</button>
+            </div>
+        </form>
+    </div>
+</div>

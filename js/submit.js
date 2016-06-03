@@ -1,7 +1,6 @@
 // npm modules
 var page = require('page');
 var $ = require('jquery');
-var Handlebars = require('handlebars');
 
 // custom modules and utils
 var loadingUtils = require('./utils/loading.js');

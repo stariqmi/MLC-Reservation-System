@@ -1,7 +1,6 @@
 // npm modules
 var page = require('page');
 var $ = require('jquery');
-var Handlebars = require('handlebars');
 
 // local modules
 var render = require('./render.js');
@@ -43,21 +42,11 @@ $(document).ready(function() {
 	page('/admin/reservations/:year/:month/:day', function(ctx) {
 		$contentContainer.empty();
 		
-		var partial = $('#reservation-display-partial-template').html();
-		Handlebars.registerPartial('reservationDisplay', partial);
-		
 		render.renderReservationsByDate(ctx.params.year, ctx.params.month, ctx.params.day);
 	});
 	
 	page('/admin/reservations/:id', function(ctx) {
 		$contentContainer.empty();
-		
-		// Register Helper
-		var partial = $('#transaction-info').html();
-		Handlebars.registerPartial('transactionInfo', partial);
-		
-		partial = $('#employee-notify').html();
-		Handlebars.registerPartial('employeeNotify', partial);
 		
 		// Second parameter is for admin flag
 		render.renderReservation(ctx.params.id, true);
