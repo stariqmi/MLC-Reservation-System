@@ -1,0 +1,356 @@
+<!-- Input Text Template -->
+<script id="text-datetime-input-template" type="text/x-handlebars-template">
+    <div class="{{type}}-input-container form-group" id="{{id}}-container">
+        <label>{{label}}</label>
+        {{!-- If options property is null, it means it is text/date field --}}
+        {{#if options}}
+            <select id="{{id}}" class="form-control">
+            {{#each options}}
+                <option value="{{value}}">{{label}}</option>
+            {{/each}}
+            </select>
+        {{else}}
+            {{#if textarea}}
+                <textarea id="{{id}}" class="form-control" placeholder="{{textareaPlaceholder}}"/>
+            {{else}}
+                <input id="{{id}}" class="form-control" type="text" placeholder="{{placeholder}}"/>
+            {{/if}}
+        {{/if}}
+        {{#if helpText}}
+            <span id="helpBlock" class="help-block">{{helpText}}</span>
+        {{/if}}
+        <p class="error-info">{{error}}</p>
+    </div>
+</script>
+
+<!-- Sections Template -->
+<script id="form-template" type="text/x-handlebars-template">
+    <header class="main-header">
+        <div class="row">
+            <!-- Header, form name -->
+            <div class="col-md-12 header">
+                <h2>Miami Limo Coach</h2>
+                <h3>Reservation From</h3>
+            </div>
+        </div>
+    </header>
+    <section>
+        <header class="sub-header">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Pickup Information</h3>
+                </div>
+            </div>
+        </header>
+        <div class="row" id="reservation-form-container">
+            {{#each sections}}
+                <div class="col-md-6">
+                    {{#each fields}}
+                        {{> inputDisplay}}
+                    {{/each}}
+                </div>
+            {{/each}}
+        </div>
+    </section>
+    {{> ccPayment ccSpec}}
+    {{> reservationSubmit}}
+    <footer></footer>
+</script>
+
+<!-- Payment Template -->
+<script id="payment-template" type="text/x-handlebars-template">
+    <section>
+        <header class="sub-header">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Credit Card Information</h3>
+                </div>
+            </div>
+        </header>
+        <div class="row">
+            <div class="col-md-6" id="payment-container">
+                <p class="transaction error-info"></p>
+                {{#each fields}}
+                    <div class="form-group" id="{{id}}-container">
+                        <label>{{label}}</label>
+                        <input id="{{id}}" type="text" class="form-control" placeholder="{{placeholder}}"/>
+                        <p class="error-info">{{error}}</p>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </header>
+</script>
+
+<script id="reservation-submit-template" type="text/x-handlebars-template">
+    <section>
+    <div class="row">
+        <div class="col-md-12" id="security-info">
+            <center>
+                <img src="http://forms.miamilimocoach.com/wp-content/uploads/2014/07/usaepaysecurebuttonblue.gif" alt="UsaEpay Secure Processing"/>
+                <img src="/images/cc-logos.gif" alt="Accepted Cards"/>
+                <p>BY FILLING OUT THIS DOCUMENT, I HAVE HEREBY AUTHORIZED<br/>
+                    <b>Miami Limo Coach</b> <br/>
+                    TO CHARGE MY CREDIT CARD ABOVE IN ORDER<br/> 
+                    TO SECURE THEIR SERVICES
+                </p>
+            </center>
+        </div>
+        
+        <div class="col-md-12">
+            <center>
+                <h3 id="error-indication">Please fix the errors marked in red in order to make a reservation.</h3>
+                <button id="btn-submit" type="button" class="myButton">Submit Reservation / Make Payment</button>
+            </center>
+        </div>
+        
+        <div class="col-md-12" id="disclaimer">
+            <center>
+                <h4>Company Policy</h4>
+            </center>
+            <p>
+                <b>Company policy:</b>
+                At the chauffeurs discretion, renter agrees to be fully liable for any damages that may occur including but not limited to:<br/>
+                    <ul>
+                        <li>Holes or tears in seat -- $200</li>
+                        <li>Gum in carpet -- $50</li>
+                        <li>Special cleaning (sickness etc.) -- $250</li>
+                    </ul>
+                *For passengers 21+ we allow all liquor bottles on-board but no beer bottles, only beer cans allowed.<br/>
+                <br/>
+                16850 Collins Ave. Suite #259 Miami, Fl 33160<br/>
+                Phone: <a href="tel:3052009804">(305) 200-9804<a/><br/>
+                Fax: (305) 424-9396<br/>
+                E-mail: <a href="mailto:info@miamilimocoach.com">info@miamilimocoach.com</a><br/>
+                Website: <a href="www.miamilimocoach.com">www.miamilimocoach.com</a>
+            </p>
+        </div>
+    </div>
+    </section>
+</script>
+
+<!-- Calendar Template -->
+<script id="calendar-template" type="type/x-handlebars-template">
+    <div class="legend row">
+        <!--
+        {{#each status}}
+            <div class="legend-item col-sm-3" style="background-color:{{color}}"><span>{{label}}</span></div>
+        {{/each}}
+        -->
+    </div>
+    <div class="row">
+        <div class="calendar col-md-12" id="calendar"></div>
+    </div>
+</script>
+
+<!-- CLNDR.js related template -->
+<script id="week-template" type="type/x-handlebars-template">
+    <div class="days">
+        {{#each days}}
+            <div class="day {{classes}}">
+                <div class="day-number">{{day}}</div>
+                <div class="go-to-day">
+                    <a href="/admin/reservations/{{year}}/{{month}}/{{day}}">View All</a>
+                </div>
+                <div class="day-events">
+                {{#each events}}
+                    <!-- Reservation status ({{status}}) adds a class that points to a css class in clndr.css -->
+                    <div class="day-event {{status}}">
+                        <a href="/admin/reservations/{{_id.$oid}}" >#{{coach}}<span class="hidden-xs">/{{pickup_time}}</span></a>
+                    </div>
+                {{/each}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</script>
+
+<!-- CLNDR.js related template -->
+<script id="clndr-template" type="type/x-handlebars-template">
+    <section id="calendar-section">
+        <div class="clndr-ctrls">
+            <div class="clndr-ctrl clndr-ctrl-nav">
+                <button type="button" class="btn btn-default clndr-previous-button btn-lg">
+                    <span class="glyphicon glyphicon-circle-arrow-left"></span>
+                </button>
+            </div>
+            <div class="clndr-ctrl month-year">
+                <h3><b>{{month}} - {{year}}</b></h3>
+                <button type="button" class="btn btn-default btn-lg clndr-today-button" id="today-button">
+                    <b>Today</b>
+                </button>
+            </div>
+            
+            <div class="clndr-ctrl clndr-ctrl-nav">
+                <button type="button" class="btn btn-default clndr-next-button btn-lg">
+                    <span class="glyphicon glyphicon-circle-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+        <div class="days weekdays">
+            {{#each daysOfTheWeek}}
+                <div class="day weekday">
+                    <div class="day-content">{{this}}</div>
+                </div>
+            {{/each}}
+        </div>
+        {{makeWeeks days}}
+    </section>
+</script>
+
+<!-- Transaction Info Template -->
+<script id="transaction-info" type="type/x-handlebars-template">
+    <section>
+        <div class="row"><div class="col-md-12"><h3>Transaction Information</h3></div></div>
+        <div class="row">
+            <div class="col-md-12">						
+                <table class="table table-bordered table-condensed">
+                    <tbody>
+                        <tr><td class="col-md-4"><b>Reference #</b></td><td class="col-md-8">{{refNum}}</td></tr>
+                        <tr class="warning"><td class="col-md-4"><b>Status</b></td><td class="col-md-8">{{status}}</td></tr>
+                        <tr><td class="col-md-4"><b>Card Holder</b></td><td class="col-md-8">{{cardHolder}}</td></tr>
+                        <tr><td class="col-md-4"><b>Card Number</b></td><td class="col-md-8">XXXXXXXXXXXX{{cardNumber}}</td></tr>
+                        <tr><td class="col-md-4"><b>Amount</b></td><td class="col-md-8">{{amount}}</td></tr>
+                        <tr><td class="col-md-4"><b>Authorization</b></td><td class="col-md-8">{{authorization}}</td></tr>
+                        <tr><td class="col-md-4"><b>AVS Result</b></td><td class="col-md-8">{{avsResult}}</td></tr>
+                        <tr><td class="col-md-4"><b>CVV2 Result</b></td><td class="col-md-8">{{cvv2Result}}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</script>
+
+<!-- Reservation partial -->
+<script id="reservation-display-partial-template" type="type/x-handlebars-template">
+    <section>
+        <div class="row reservation-display-section">
+            <div class="col-md-12">
+                <table class="table table-bordered table-condensed">
+                    {{#each sections}}
+                        {{#each fields}}
+                            <tr class="reservation-field-info-container">
+                                <td class="col-md-4"><b>{{label}}</b></td>
+                                <td class="col-md-8"><span id="{{id}}">{{value}}</span></td>
+                            </tr>
+                        {{/each}}
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </section>	
+</script>
+
+<script id="reservations-by-date-with-partial-template" type="type/x-handlebars-template">
+    <div class="reservations-by-date-container">
+        <header>
+            <h3 class="reservations-by-date">{{date}}</h3>
+            {{#if admin}}
+                <div class="row" id="reservation-buttons-container">
+                    <div class="col-md-12">
+                        <a href="/admin/clndr" class="btn btn-primary">View Calendar</a>
+                    </div>
+                </div>
+            {{/if}}
+        </header>
+        <div class="reservations-container">
+            {{#each reservations}}
+                {{>reservationDisplay reservation}}
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+<!-- Reservation View Template -->
+<script id="reservation-display-template" type="type/x-handlebars-template">
+    <header class="reservation-display-header">
+    {{#if admin}}
+        <div class="row" id="reservation-buttons-container">
+            <div class="col-md-12">
+                <button class="delete-btn btn btn-danger">Delete Reservation</button>
+                <a href="/admin/clndr" class="btn btn-primary">View Calendar</a>
+            </div>
+        </div>
+    {{/if}}
+    </header>
+    
+    <section>
+        {{#unless admin}}
+        <div class="row">
+            <div class="col-md-12">
+                <h4 style="color: green">An email with the following details has been sent to you.</h4>
+                <h3>Reservation Details</h3>
+            </div>
+        </div>
+        {{/unless}}
+        
+        <div class="row reservation-display-section">
+            <div class="col-md-12">
+                <table class="table table-bordered table-condensed">
+                    {{#each sections}}
+                        {{#each fields}}
+                            <tr class="reservation-field-info-container">
+                                <td class="col-md-4"><b>{{label}}</b></td>
+                                <td class="col-md-8"><span id="{{id}}">{{value}}</span></td>
+                            </tr>
+                        {{/each}}
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </section>
+    
+    {{#if admin}}
+        {{>transactionInfo transaction}}
+        {{>employeeNotify employees}}
+    {{/if}}
+    <footer></footer>
+</script>
+
+<!-- Select option for sending email to employee -->
+<script id="employee-notify" type="type/x-handlebars-template">
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-inline email-form">
+                <div class="form-group">
+                    <select class="form-control">
+                        {{#each this}}
+                            <option value="{{email}}/{{phone}}">{{name}} - ({{type}})</option>
+                        {{/each}}
+                    </select>
+                    <button class="notify-btn btn btn-primary">Notify Employee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>
+
+<script id="reservation-by-date-display-template" type="type/x-handlebars-template">
+    <header>
+        <h3 class="reservations-by-date">{{date}}</h3>
+    </header>
+    {{#each reservations}}
+        <div class="reservations-by-date reservation-element">
+            <p><b>Coach:</b> {{coach}}</p>
+            <p><b>Company:</b> {{company}}</p>
+            <p><b>Dropoff Time:</b> {{dropoff_time}}</p>
+            <p><b>Email:</b> {{email}}</p>
+            <p><b>First Name:</b> {{fname}}</p>
+            <p><b>Last Name:</b> {{lname}}</p>
+            <p><b>Phone:</b> {{phone}}</p>
+            <p><b>Pickup Time:</b> {{pickup_time}}</p>
+            <p><b>Hours Needed:</b> {{hours_needed}}</p>
+            <p><b>Occassion Type:</b> {{occassion_type}}</p>
+            <p><b>Passenger Count:</b> {{passenger_count}}</p>
+            <p><b>Pickup Address:</b> {{pickup_addr}}</p>
+            <p><b>Pickup City:</b> {{pickup_city}}</p>
+            <p><b>Pickup Zip:</b> {{pickup_zip}}</p>
+            <p><b>Pickup Date:</b> {{pickup_date}}</p>
+            <p><b>Pickup Time:</b> {{pickup_time}}</p>
+            <p><b>Status:</b> <b class="{{status}}-text">{{status}}</b></p>
+            <p><b>Total Price:</b> {{total_price}}</p>
+            <p><b>Special Instructions:</b> {{special_instructions}}</p>
+        </div>
+    {{/each}}
+    <footer></footer>
+</script>

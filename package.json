@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify -d js/main.js -o server/public/js/bundle.js -v",
-    "build": "browserify -e js/main.js -o server/public/js/bundle.js"
+    "watch": "watchify -d -t hbsfy js/main.js -o server/public/js/bundle.js -v",
+    "build": "browserify -e -t hbsfy js/main.js -o server/public/js/bundle.js"
   },
   "keywords": [
     "oleg"
@@ -21,5 +21,8 @@
     "jquery": "2.2.1",
     "jquery-ui": "^1.10.4",
     "page": "1.6.4"
+  },
+  "devDependencies": {
+    "hbsfy": "^2.7.0"
   }
 }

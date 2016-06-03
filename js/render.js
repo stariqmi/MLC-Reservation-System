@@ -8,10 +8,10 @@ var clone = require('clone');
 var Promise = require('bluebird');
 
 // forms json
-var per_person_json = require('./per_person.json');
-var total_price_json = require('./total_price.json');
-var hourly_rate_json = require('./hourly_rate.json');
-var cc_form_json = require('./cc_payment_form.json');
+var per_person_json = require('./form_specs/per_person.json');
+var total_price_json = require('./form_specs/total_price.json');
+var hourly_rate_json = require('./form_specs/hourly_rate.json');
+var cc_form_json = require('./form_specs/cc_payment_form.json');
 var status_json = require('./status.json');
 
 // Local modules and utils
@@ -21,11 +21,15 @@ var submit = require('./submit');
 var drawCalendar = require('./clndr.js');
 var loadingUtils = require('./utils/loading.js');
 var templateUtils = require('./utils/templates.js');
+var ajaxUtils = require('./utils/ajax.js');
 
 var contentContainerClass = ".contentContainer";
 var $contentContainer = $(contentContainerClass);
 
 module.exports = {
+	/*
+		Renders reservation + payment form based on spec specified via URL
+	 */
 	renderForm: function(formType, DEBUG) {
 		
 		var formSpec;
@@ -89,15 +93,16 @@ module.exports = {
 		loadingUtils.hide();
 	},
 		
+	/*
+		Renders calendar
+	 */
 	renderCalendar: function() {
 		
 		var month = moment().month() + 1;
 		
-		$.ajax('/reservations/' + month + '/' + month, {
-			method: 'GET',
-			success: function(data, status) {
-				drawCalendar(data);
-			}
+		ajaxUtils.makeRequest('GET', '/reservations/' + month + '/' + month)
+		.then(function(data) {
+			drawCalendar(data);
 		});
 	},
 	
