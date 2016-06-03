@@ -5,9 +5,10 @@ var Handlebars = require('handlebars');
 
 // local modules
 var render = require('./render.js');
+var templateUtils = require('./utils/templates.js');
 
 $(document).ready(function() {
-
+	
 	var contentContainerClass = ".contentContainer";
 	var $contentContainer = $(contentContainerClass);
 	
@@ -28,17 +29,6 @@ $(document).ready(function() {
 	page('/forms/:formID', function(ctx) {
 		// Maybe keep the link to the form
 		$contentContainer.empty();
-		
-		// Register Partials
-		var partialA = $('#text-datetime-input-template').html();
-		Handlebars.registerPartial('inputDisplay', partialA);
-		
-		var partialB = $('#reservation-submit-template').html();
-		Handlebars.registerPartial('reservationSubmit', partialB);
-		
-		var ccPartial = $("#payment-template").html();
-		Handlebars.registerPartial('ccPayment', ccPartial);
-		
 		var formID = ctx.params.formID;
 		
 		// Second argument is debug flag

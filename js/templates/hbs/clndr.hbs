@@ -1,0 +1,29 @@
+<section id="calendar-section">
+    <div class="clndr-ctrls">
+        <div class="clndr-ctrl clndr-ctrl-nav">
+            <button type="button" class="btn btn-default clndr-previous-button btn-lg">
+                <span class="glyphicon glyphicon-circle-arrow-left"></span>
+            </button>
+        </div>
+        <div class="clndr-ctrl month-year">
+            <h3><b>{{month}} - {{year}}</b></h3>
+            <button type="button" class="btn btn-default btn-lg clndr-today-button" id="today-button">
+                <b>Today</b>
+            </button>
+        </div>
+        
+        <div class="clndr-ctrl clndr-ctrl-nav">
+            <button type="button" class="btn btn-default clndr-next-button btn-lg">
+                <span class="glyphicon glyphicon-circle-arrow-right"></span>
+            </button>
+        </div>
+    </div>
+    <div class="days weekdays">
+        {{#each daysOfTheWeek}}
+            <div class="day weekday">
+                <div class="day-content">{{this}}</div>
+            </div>
+        {{/each}}
+    </div>
+    {{makeWeeks days}}
+</section>

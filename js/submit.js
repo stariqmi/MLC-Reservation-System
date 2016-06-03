@@ -3,7 +3,8 @@ var page = require('page');
 var $ = require('jquery');
 var Handlebars = require('handlebars');
 
-// custom modules
+// custom modules and utils
+var loadingUtils = require('./utils/loading.js');
 var validate = require('./validateFuncs');
 var cc_form_json = require('./cc_payment_form.json');
 
@@ -81,7 +82,7 @@ module.exports = {
                 }
                 
                 if (isValidReservation && isValidCCInfo) {
-                    $('#loading').show();
+                    loadingUtils.show();
                     reservationInfo['status'] = (ccEmpty) ? 'reservation-only' : 'pre-payment';
                     
                     // Add pickup month, day, year
@@ -103,7 +104,7 @@ module.exports = {
                         dataType: 'json',
                         success: function(data, status) {
                             
-                            $('#loading').hide();
+                            loadingUtils.hide();
                             
                             if (data.status === 'ok' && data.resultCode === 'A') {
                                 // Clear out "session"
@@ -155,7 +156,7 @@ module.exports = {
                 
                 if (validCCInfo) {
                     // Show loading
-                    $('#loading').show();
+                    loadingUtils.show();
                     
                     // Send reservationID along
                     ccInfo.reservationID = reservationID;
@@ -171,7 +172,7 @@ module.exports = {
                         success: function(data, status) {
                             
                             // Uncomment this when you have processing working
-                            $('#loading').hide();
+                            loadingUtils.hide();
                             if (data.resultCode === 'E') {
                                 $(".transaction.error-info").html(data.error);
                                 $(".transaction.error-info").show();

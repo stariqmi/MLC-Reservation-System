@@ -14,20 +14,19 @@ var hourly_rate_json = require('./hourly_rate.json');
 var cc_form_json = require('./cc_payment_form.json');
 var status_json = require('./status.json');
 
-// Local modules
+// Local modules and utils
 var afterRender = require('./afterRender');
 var displayAfterRender = require('./displayAfterRender');
 var submit = require('./submit');
 var drawCalendar = require('./clndr.js');
+var loadingUtils = require('./utils/loading.js');
+var templateUtils = require('./utils/templates.js');
 
 var contentContainerClass = ".contentContainer";
 var $contentContainer = $(contentContainerClass);
 
 module.exports = {
 	renderForm: function(formType, DEBUG) {
-		
-		var source = $('#form-template').html();
-		var template = Handlebars.compile(source);
 		
 		var formSpec;
 		
@@ -52,7 +51,11 @@ module.exports = {
 		formSpec.ccSpec = clone(cc_form_json);
 		
 		// Add form page
-		$contentContainer.append(template(formSpec));
+		templateUtils.render({
+			name: 'form', 
+			data: formSpec
+		});
+		
 		$('.error-info').hide();
 		
 		// Modify fields - datetime conversion and register event handlers
@@ -83,7 +86,7 @@ module.exports = {
 		
 		// Make sure loading div is hidden initially
 		// Hide it after everything is rendered
-		$('#loading').hide();
+		loadingUtils.hide();
 	},
 		
 	renderCalendar: function() {
@@ -99,11 +102,11 @@ module.exports = {
 	},
 	
 	renderReservationsByDate: function(year, month, day) {
-		$('#loading').show();
+		loadingUtils.show();
 		$.ajax('/reservations_by_date/' + year + '/' + month + '/' + day, {
 			method: 'GET',
 			success: function(data, status) {
-				$('#loading').hide();
+				loadingUtils.hide();
 				var source = $('#reservations-by-date-with-partial-template').html();
 				var template = Handlebars.compile(source);
 				
@@ -152,15 +155,12 @@ module.exports = {
 	
 	renderReservation: function(reservationID, ADMIN) {
 		
-		$('#loading').show();
+		loadingUtils.show('Loading reservation ...');
 		
-		// var reservationsPromise = new Promise(function(resolve, reject) {
-		// 	
-		// })
 		$.ajax('/reservations/' + reservationID, {
 			method: 'GET',
 			success: function(data, status) {
-				$('#loading').hide();
+				loadingUtils.hide();
 				
 				// Get the spec to render
 				var spec;
@@ -223,7 +223,7 @@ module.exports = {
 						
 						$('.notify-btn').on('click', function(e) {
 							e.preventDefault();
-							$('#loading').show();
+							loadingUtils.show('Sending email ...');
 							var emailPromise = new Promise(function(resolve, reject) {
 								var data = $('.email-form select').val().split('/');
 								var email = data[0];
@@ -236,6 +236,7 @@ module.exports = {
 								})
 							})
 								.then(function(number) {
+									loadingUtils.show('Sending SMS ...');
 									return new Promise(function(resolve, reject) {
 										$.ajax('/employees/sms_reservation?reservation_id=' + reservationID + '&to=' + number, {
 											method: 'POST',
@@ -247,7 +248,7 @@ module.exports = {
 									});
 								})
 								.then(function(data) {
-									$('#loading').hide();
+									loadingUtils.hide();
 								})
 								.catch(function(err) {
 									console.log(err);
@@ -256,11 +257,11 @@ module.exports = {
 						});	
 						
 						$('.delete-btn').on('click', function() {
-							$('#loading').show();
+							loadingUtils.show();
 							$.ajax('/reservations/' + reservationID, {
 								method: 'DELETE',
 								success: function(data, status) {
-									$('#loading').hide();
+									loadingUtils.hide();
 									if (data.status === 'ok') page('/admin/clndr');
 									else alert('Can not delete, please contact your developer');
 								}

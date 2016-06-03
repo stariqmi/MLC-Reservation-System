@@ -5,7 +5,9 @@ var moment = require('moment');
 var clndr = require('clndr');
 var clone = require('clone');
 
-// local modules
+// local modules and utils
+var loadingUtils = require('./utils/loading.js');
+var templateUtils = require('./utils/templates.js');
 var status_json = require('./status.json');
 
 var contentContainerClass = ".contentContainer";
@@ -14,28 +16,29 @@ var $contentContainer = $(contentContainerClass);
 // Renders clndr.js calendar
 module.exports = function(reservations) {
     
-    Handlebars.registerHelper('makeWeeks', function(days) {
-        var clonedDays = clone(days);
-        
-        for (var di in clonedDays) {
-            var day = clonedDays[di];
-            day.year = day.date.get('year');
-            day.month = day.date.get('month') + 1;
+    templateUtils.registerHelper('makeWeeks', function(hbs, templates) {
+        return function(days) {
+            var clonedDays = clone(days);
+            
+            for (var di in clonedDays) {
+                var day = clonedDays[di];
+                day.year = day.date.get('year');
+                day.month = day.date.get('month') + 1;
+            }
+            
+            var weeks = [];
+            while(clonedDays.length) {
+                weeks.push(clonedDays.splice(0, 7));
+            }
+            
+            var template = templates['week'];
+            
+            for (var wi in weeks) {
+                weeks[wi] = template({days: weeks[wi]});
+            }
+            
+            return new hbs.SafeString(weeks.join(""));
         }
-        
-        var weeks = [];
-        while(clonedDays.length) {
-            weeks.push(clonedDays.splice(0, 7));
-        }
-        
-        var source = $('#week-template').html();
-        var template = Handlebars.compile(source);
-        
-        for (var wi in weeks) {
-            weeks[wi] = template({days: weeks[wi]});
-        }
-        
-        return new Handlebars.SafeString(weeks.join(""));
     });
     
     for (var ri in reservations) {
@@ -45,13 +48,10 @@ module.exports = function(reservations) {
         reservation.date = date.toISOString();
     }
     
-    var source = $('#calendar-template').html();
-    var template = Handlebars.compile(source);
-    
-    $contentContainer.html(template(status_json));
-    
-    var clndrSource = $('#clndr-template').html();
-    var clndrTemplate = Handlebars.compile(clndrSource);
+    templateUtils.render({
+        name: 'calendar',
+        data: status_json
+    })
     
     var visitedMonths = {};
     visitedMonths[moment().month() + 1] = true;
@@ -69,7 +69,7 @@ module.exports = function(reservations) {
         
         // Load data only if data for this month hasnt been loaded
         if (!visitedMonths[month]) {
-            $('#loading').show();
+            loadingUtils.show();
             
             // visit month
             visitedMonths[month] = true;
@@ -91,10 +91,11 @@ module.exports = function(reservations) {
             });
         }
     }
+
     
     $('#calendar').clndr({
         render: function(data) {
-            return clndrTemplate(data);
+            return templateUtils.fetch('clndr')(data);
         },
         events: reservations,
         forceSixRows: true,
@@ -102,7 +103,7 @@ module.exports = function(reservations) {
             $('#today-button').attr('disabled', true);
         },
         doneRendering: function() {
-            $('#loading').hide();
+            loadingUtils.hide();
         },
         clickEvents: {
             onMonthChange: onMonthChange

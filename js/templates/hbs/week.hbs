@@ -1,0 +1,18 @@
+<div class="days">
+    {{#each days}}
+        <div class="day {{classes}}">
+            <div class="day-number">{{day}}</div>
+            <div class="go-to-day">
+                <a href="/admin/reservations/{{year}}/{{month}}/{{day}}">View All</a>
+            </div>
+            <div class="day-events">
+            {{#each events}}
+                <!-- Reservation status ({{status}}) adds a class that points to a css class in clndr.css -->
+                <div class="day-event {{status}}">
+                    <a href="/admin/reservations/{{_id.$oid}}" >#{{coach}}<span class="hidden-xs">/{{pickup_time}}</span></a>
+                </div>
+            {{/each}}
+            </div>
+        </div>
+    {{/each}}
+</div>

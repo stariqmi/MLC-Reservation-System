@@ -1,0 +1,21 @@
+<section>
+    <header class="sub-header">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Credit Card Information</h3>
+            </div>
+        </div>
+    </header>
+    <div class="row">
+        <div class="col-md-6" id="payment-container">
+            <p class="transaction error-info"></p>
+            {{#each fields}}
+                <div class="form-group" id="{{id}}-container">
+                    <label>{{label}}</label>
+                    <input id="{{id}}" type="text" class="form-control" placeholder="{{placeholder}}"/>
+                    <p class="error-info">{{error}}</p>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</section>

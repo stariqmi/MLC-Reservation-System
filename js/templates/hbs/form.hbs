@@ -1,0 +1,30 @@
+<header class="main-header">
+    <div class="row">
+        <!-- Header, form name -->
+        <div class="col-md-12 header">
+            <h2>Miami Limo Coach</h2>
+            <h3>Reservation From</h3>
+        </div>
+    </div>
+</header>
+<section>
+    <header class="sub-header">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Pickup Information</h3>
+            </div>
+        </div>
+    </header>
+    <div class="row" id="reservation-form-container">
+        {{#each sections}}
+            <div class="col-md-6">
+                {{#each fields}}
+                    {{> text_datetime_input}}
+                {{/each}}
+            </div>
+        {{/each}}
+    </div>
+</section>
+{{> payment ccSpec}}
+{{> reservation_submit}}
+<footer></footer>
