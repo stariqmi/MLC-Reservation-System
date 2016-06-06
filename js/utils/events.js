@@ -7,14 +7,16 @@ var loadingUtils = require('./loading.js');
 var ajaxUtils = require('./ajax.js');
 
 module.exports = {
-    reservationDeleteBtnClick: function() {
-        loadingUtils.show();
-        ajaxUtils.makeRequest('DELETE', '/reservations/' + reservationID)
-        .then(function(data) {
-            loadingUtils.hide();
-            if (data.status === 'ok') page('/admin/clndr');
-            else alert('Can not delete, please contact your developer');
-        });
+    reservationDeleteBtnClick: function(reservationID) {
+        return function(e) {
+            loadingUtils.show();
+            ajaxUtils.makeRequest('DELETE', '/reservations/' + reservationID)
+            .then(function(data) {
+                loadingUtils.hide();
+                if (data.status === 'ok') page('/admin/clndr');
+                else alert('Can not delete, please contact your developer');
+            });
+        }
     },
 
     employeeNotifyBtnClick: function(reservationID) {

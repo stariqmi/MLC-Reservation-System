@@ -197,7 +197,7 @@ module.exports = {
 					
 					$('.notify-btn').on('click', eventUtils.employeeNotifyBtnClick(reservationID));	
 					
-					$('.delete-btn').on('click', eventUtils.reservationDeleteBtnClick);
+					$('.delete-btn').on('click', eventUtils.reservationDeleteBtnClick(reservationID));
 				});
 			}
 		});
