@@ -108,7 +108,7 @@ module.exports = {
                 var ccInfo = ccCheck.info;
                 
                 var ccEmpty = isCCEmpty(ccInfo);
-                if (!ccEmpty) {
+                if (ccEmpty) {
                     $('#payment-container .error-info').hide();
                     isValidCCInfo = true;
                     reservationInfo.reservation_only = true;

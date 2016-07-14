@@ -69,6 +69,7 @@ post '/reservation' do
 		begin
 			# Call Payment System Ruby API
 		    epay = UsaEpay.new(serverConfig.usaEpayKey, serverConfig.usaEpayPin)
+			
 			payment_result = epay.executeTransaction(cc_data)
 		rescue Exception => e
 			return {
